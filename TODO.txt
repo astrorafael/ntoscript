@@ -1,0 +1,3 @@
+*  Build script and installation scripts for ebox 2300sx
+
+

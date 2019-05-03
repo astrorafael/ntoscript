@@ -1,0 +1,14 @@
+This is the document generation directory.
+To generate documentation:
+1) Edit RootDir in filelist.fs
+2) Run docgen.sh shell script
+
+ORGANIZATION
+============
+
+As suggested by the VFX user's manual, the doc generation is organized 
+around these files:
+
+- docgen.sh:   The main script dirver
+- filelist.fs:  List of files for DocGen to generate .tex or .html
+- titlepg.man: TexInfo title page (not needed in html generation)

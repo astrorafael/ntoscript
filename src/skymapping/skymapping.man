@@ -1,0 +1,243 @@
+((
+$Date: 2008-02-11 00:27:54 +0100 (lun, 11 feb 2008) $
+$Revision: 450 $
+$Author: astrorafael $
+$HeadURL$
+
+2008 By Rafael Gonzalez Fuentetaja
+This file is placed in the public domain. NO WARRANTY.
+))
+\ #####################
+\ *> skymapping
+\ *R @node{Sky Mapping}
+\ *T Sky Mapping
+\ #####################
+
+\ ***************
+\ *S Introduction
+\ ***************
+
+\ *P The sky mapping package provides a tool to generate (R.A., DEC.) 
+\ ** coordinate pairs that sample 'rectangular' areas in the sky for various 
+\ ** tasks like mosaics or asteroid hunting. It includes the necessary 
+\ ** declination correction to account for the noticeable decreasing RA arc 
+\ ** length produced at medium to high declinations.
+
+\ *P Coordinates generation (sampling) can be according to the following 
+\ ** patterns:
+\ *( 
+\ *B *\fo{UNIFORM} pattern
+\ *B *\fo{ZIGZAG} pattern
+\ *) 
+
+\ *E          >---------*      +---------*
+\ **                           |          
+\ **          >----x---->      +----x----+
+\ **                                     |
+\ **          o--------->      o---------+
+
+\ *P and each pattern in  different modes, which account for the 
+\ ** differenct combinations: *\fo{+RA +DEC}, *\fo{-RA -DEC},
+\ ** *\fo{+RA -DEC} and *\fo{-RA +DEC}. The fast moving axis is always RA.
+
+\ *P For a given set of initial and final (RA,Dec) coordinates, there are two
+\ ** possibilities for mosaicing the zone. To resolve this ambiguity we have
+\ ** introduced a limitation. The mosaicing zone should not cover more than
+\ ** 12:00:00 hours in R.A. The mapping algorithm always choose the smaller
+\ ** zone.
+
+\ =========================
+\ *N Declination correction
+\ =========================
+
+\ *P In a spherical coordinates system such as the celestial RA, Dec system,
+\ ** CCD frames sample arc lengts, not central angles and RA is the central
+\ ** angle.
+\ ** It is well known that this relationship follows the following formulae
+
+\ *E RA arc length = RA * cos(Dec)
+
+\ *P If we wish to maintain the same RA arc length at different declinations 
+\ ** as we move up and down, we need to introduce such correction.
+
+\ ==============================
+\ *N Creating sky mapper objects
+\ ==============================
+
+\ *P These objects are created with the flags given above and 
+\ ** the *\fo{SkyMapper:} word. Examples:
+
+\ *E +RA +DEC UNIFORM SkyMapper: skymapper1
+\ ** +RA -DEC ZIGZAG  SkyMapper: skymapper2
+
+\ *P Once the sky-mapper is created, we must initialize it with the 
+\ ** desired sky area.
+\ ** There are two ways, either specify an initial and final coordinate pairs
+\ ** or specify a central point plus an amount of CCD frames for each 
+\ ** coordinate. The specified coordinates always refer to the field centre.
+\ ** The CCD frame size *\b{in degrees} must also be specified 
+\ ** for both methods.
+
+\ *E  00:50:00 R.A.  +40:00:00 DEC. skymapper1 set-initial
+\ **  00:35:00 R.A.  +43:00:00 DEC. skymapper1 set-final
+\ **  01:00:00 DEG.   01:00:00 DEG. skymapper1 set-frame
+
+\ *E 00:45:22 R.A.   85:15:00 DEC. skymapper2 set-centre
+\ **                 5 x 5 frames  skymapper2 set-frames
+\ ** 01:00:00 DEG.   01:00:00 DEG. skymapper2 set-frame
+
+\ *P We can also specify and additional overlap factor.
+\ *E 25 %RA  25 %DEC skymapper1 set-overlap
+\ *P The overlap factor is 0% for no overlap and 100% for full overlap 
+\ ** (causing, in fact, an infinite loop.). Negative values create
+\ ** gaps between frames.
+
+\ *P Once all these parameters are set, we can test the produced coordinates 
+\ ** by typing:
+\ *E skymapper1 print
+
+\ *P The two different input methods account for two different needs: 
+\ *( 1
+\ *B *\b{Mosaicing}. Use initial and final points, estimated from 
+\ ** the object size as seen in a planetarium program.
+\ *B *\b{Asteroid hunting}. Use field centre plus additional CCD frames around
+\ ** the estimated position.
+\ *)
+
+\ *P They produce slightly different results. The former
+\ ** introduces a hard limit in the inital and final coordinates introduced.
+\ ** The second one calculates the whole RA arcs needed at the mid point with 
+\ ** the given number of CCD frames and this arc is maintained up un down 
+\ ** the RA strippes. 
+
+\ ==============
+\ *N XEphem tool
+\ ==============
+
+\ *P It is possible to graphically depict what is the mapped area, each one of
+\ ** the frames and the sequence order with XEphem. The tool also uses the 
+\ ** predefined Linux FIFOs
+\ ** *\f{'/usr/local/xephem/fifos/xephem_in_fifo'} and 
+\ ** *\f{'/usr/local/xephem/fifos/xephem_loc_fifo'}
+\ ** for interactive communication.
+ 
+\ *P Word *\fo{XEphem-Tool:} creates a named tool object.
+\ *P The tool generates two files:
+\ *(
+\ *B A eyepieces location file named *\f{'mapping.epl'} and
+\ *B An annotations file named *\f{'mapping.ano'}, with the sequence numbers. 
+\ *)
+
+\ *P These two files are placed under the user's 
+\ ** *\f{'$HOME/.xephem'} directory.
+
+\ *P To generate the files, we must first assign it to a previous 
+\ ** sky mapper object and invoke method *\fo{generate}. Example:
+
+\ *E foreground logging on
+\ ** XEphem-Tool: xephem
+\ ** skymapper1 xephem set-mapper
+\ ** xephem generate
+\ **
+\ ** 2008-04-20T23:06:46: 10 samples for eyepieces & annotations.
+
+\ *P Pay attention to the script output, as it tells the number of frames 
+\ ** generated to map the desired sky area.
+
+\ *P Now, launch XEphem and select your favourite SkyView from the History 
+\ ** menu. Then go to the mapped area by manually scrolling or 
+\ ** using XEphem data index facility or using again *\f{NTOScript}.
+
+\ *P For this latter:
+\ *( 1
+\ *B Make sure XEphem is not connected to an INDI server.
+\ *B *\f{'Telescope > Configure... > Enable sky marker from'}
+\ *B *\f{'Telescope > Keep visible'}
+\ *B and then type at the *\f{NTOScript} console: @fo{xephem recenter }.
+\ *)
+
+\ *P A marker should be displayed on the approximate center of the mapped area.
+\ ** Then, load the eyepieces and annotation files as usually done in XEphem:
+\ ** *\f{'Control > Eyepieces...'} and *\f{'Control > User annotation...'}
+
+\ ***************
+\ +S Design notes
+\ ***************
+
+\ =======================
+\ +N Sky Mapping Patterns
+\ =======================
+
+\ +P Initially, I tried to code up to 8 variations in each pattern, 
+\ +* where the latter 4 where the declination coordinate as the fast moving 
+\ +* coordinate.
+\ +* However, these produced gaps in the pattern and have been deemed unusable.
+\ +* The conclusion was that the fas moving coordinate should always be RA.
+\ +* For the same reason, we have discarded the spiral pattern, as it combines
+\ +* RA movement and Dec movement. 
+
+\ ==================
+\ +N R.A. Wraparound
+\ ==================
+
+\ +P The mosaicing algorithm alwasy choose the smaller mapping area. 
+\ +* The R.A. in the algorithm always increases or decreases monotonically.
+\ +* This may introduce problems when the line of *\fo{00:00:00: R.A.} 
+\ ** lays in between.
+\ +* Specifically:
+\ +(
+\ +B For *\fo{+RA}, when RA(initial) > 12:00:00 and RA(final) < 12:00:00
+\ +B For *\fo{-RA}, when RA(initial) < 12:00:00 and RA(final) > 12:00:00
+\ +)
+\ +* In thses situations, there is a wraparound in the RA coordinate.
+\ +* It has been solved by letting the RA be negative, if needed.
+\ +* However, the RA offered to the user is always in the proper range.
+
+\ +P Member structure *\fo{m-buffered} is precisely where the correct RA
+\ +* reduction takes place and this structure is what the client software
+\ +* reads.
+
+ 
+\ =======================
+\ +N Grid class internals
+\ =======================
+
+\ +P RA is stored as degrees to ease internal computation of points.
+\ +* Only when exported to XEphem, it is converted into radians.
+
+
+\ +P The looping is done through the *\fo{m-initial},  *\fo{m-current} and
+\ +* *\fo{m-final} in all subclasses. Looping is either from *\fo{m-initial}
+\ +* to *\fo{m-final}, (increasing RA or DEC) or viceversa, from 
+\ +* *\fo{m-final} to *\fo{m-initial}. This needs *\fo{m-initial} and 
+\ +* *\fo{m-final} to be sorted so that the lowest coordinates are always
+\ +* in *\fo{m-initial}.
+
+\ +P Class *\fo{grid-generator} contains some template algorithms 
+\ +* in which subclasses fill in with the proper hooks (selectors)
+\ +* For instance, the *\fo{reset} method conatins calls to wraparound
+\ +* decetcion, which depends on teh particular object.
+
+\ ==============
+\ +N XEphem tool
+\ ==============
+
+\ +P I have opted not to create a predefined object called *\fo{xephem} 
+\ +* to avoid the problem of persistance after turnkey generation. 
+\ +* Instead, I let the user to create this object himself in the script. 
+\ +* Other possible solution would be to use a module. 
+
+\ +P I had also devised an interface that the *\fo{XEPHEM-TOOL} 
+\ +* would implement, but for the time being, this seems unecessary.
+
+\ +P FIFO and *\f{'.xephem'} paths are hardcoded for the time being.
+
+\ ***********
+\ *S Glossary
+\ ***********
+
+
+\ ======
+\ *> ###
+\ ======
+

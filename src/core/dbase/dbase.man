@@ -1,0 +1,57 @@
+((
+$Date$
+$Revision$
+$Author$
+$HeadURL$
+
+2008 By Rafael Gonzalez Fuentetaja
+This file is placed in the public domain. NO WARRANTY.
+))
+
+\ #############################
+\ *! properties
+\ *R @node{Properties database}
+\ *T Properties database
+\ #############################
+
+
+\ ***************
+\ *S Introduction
+\ ***************
+
+\ *P The heart of INDIScript is the INDI properties database. 
+\ ** This is an in-memory, hierarchical database of objects with four levels:
+\ *( 1
+\ *B The server level. There are as many *\fo{INDI-SERVER} objects as 
+\ ** connections to remote INDI servers.
+\ *B The device level. All devices under a given server are placed together 
+\ ** as children of a given *\fo{INDI-SERVER} object.
+\ ** All properties belong to a given device and are placed under 
+\ ** its parent *\fo{INDI-DEVICE}.
+\ *B The property level. This is where all *\fo{PROPERTY-VECTOR} objects 
+\ ** live.
+\ *B The property item level. The individual components of each  
+\ ** *\fo{PROPERTY-VECTOR}.
+\ *)
+
+\ *R @float Figure,figclass
+\ *R @center @image{class_hierarchy,,12cm,Class hierarchy,.png}
+\ *R @caption{Class hierarchy.}
+\ *R @end float
+
+\ *P The properties database API is placed in the *\fo{INDI} vocabulary.
+\ ** Details and design notes for each class are given in the following 
+\ ** glossary section. 
+
+\ *P The object system choosen by INDIScript - *\i{objects.fs} - has been 
+\ ** ported from *\i{GForth} to *\i{VFX Forth for Linux}. Please, read the
+\ ** GForth manual for details about this OOP package.
+
+\ ***********
+\ *S Glossary
+\ ***********
+
+
+\ ======
+\ *> ###
+\ ======

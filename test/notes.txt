@@ -1,0 +1,22 @@
+1) Find the opening tag
+  search the string starting with < and ending with space
+	
+	i = buffer.index('<')   # raises a ValueError if buffer too small
+        j = buffer.index(' ',i) # raises a ValueError if buffer too small
+        tag = buffer[i+1:j]
+
+2) Finds a closing >
+
+        j = buffer.index('>',j)
+
+        # check for premature closig tag />
+        # if not then finds the closing tag </tag>
+        
+        if(buffer[j-1] != '/'):
+            j = buffer.index('</',j)
+            j = buffer.index(tag,j)
+            j = buffer.index('>',j)
+            
+3) Extracts the whole indi message to be XML parsed
+        self.k = j+1
+        return buffer[i:j+1]

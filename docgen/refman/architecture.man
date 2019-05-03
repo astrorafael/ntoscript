@@ -1,0 +1,103 @@
+((
+$Date$
+$Revision$
+$Author$
+$HeadURL$
+
+2008 By Rafael Gonzalez Fuentetaja
+This file is placed in the public domain. NO WARRANTY.
+))
+\ ######################
+\ *! architecture
+\ *R @node{Architecture}
+\ *T Architecture
+\ ######################
+
+\ ***********************
+\ *S Package organization
+\ ***********************
+
+\ *P
+\ *R As seen in the @ref{fig-packages}
+\ *R *\f{NTOScript} is logically organized in roughly three layers 
+\ *R of packages:
+\ *( a
+\ *B *\b{The infraestucture layer.} This layer holds the packages that the
+\ ** core of *\f{NTOScript} depends upon, and includes - of course - the
+\ ** underlying *\i{VFX for Linux} infraestructure and some other external
+\ ** packages with its own projects and independent life-cycle from 
+\ ** *\f{NTOScript}.
+\ *B *\b{The base layer.} Contains words and classes that make up the core 
+\ ** funcionalities of managing a properties
+\ ** database and receiving updates from the server and the client scripts.
+\ ** The basic scripting words are also included in this layer.
+\ *B *\b{The add-ons layer.} More domain-specific packages that offer the
+\ ** API for new services like producing coordinates for systematic sky 
+\ ** mapping or queries to external object catalogs like those offered with
+\ ** the commercial version of 
+\ *R @uref{http://www.clearskyinstitute.com/xephem/,XEphem}.
+\ *)
+
+\ *R @float Figure,fig-packages
+\ *R @center @image{Detailed_Packages,,12cm,Package organization,.png}
+\ *R @caption{NTOScript architecture.}
+\ *R @end float
+
+\ *P Taking into account this package organization, this document is 
+\ ** structured as follows:
+\ *(
+\ *B @ref{Sky Mapping} package not yet available.
+\ *B 
+\ *R @ref{Properties database} through @ref{Simple logger}
+\ *R explains in detail the different components of @emph{core} package, 
+\ *R covering the properties database,
+\ *R details the custom XML parser that is used for INDI, the buffering
+\ *R system and helper modules such as base64 encoding and Zlib encoding.
+\ *B
+\ *R Also in the base layer, @ref{Command Line Interface} and 
+\ *R @ref{Command Line Interface} cover 
+\ *R the @emph{console} package with the basic script commands to get/set
+\ *R *\f{INDI} properties and to generate the *\f{NTOScript} executable.
+\ *B
+\ *R @ref{Linux TCP and UDP Socket Bindings} through @ref{Extras} 
+\ *R cover external packages needed for *\f{NTOScript}. 
+\ *R Some of them, such as
+\ *R the @ref{Cooperative Multitasker} may not be present in the final release,
+\ *R depending on the choice made. For details on the @emph{VFX} package
+\ *R please @xref{Introduction,,Reference documents}.
+\ *)
+
+
+\ **************************
+\ *S Deployment architecture
+\ **************************
+
+\ *P *\f{NTOScript} the client role in a client/server architecture stated by
+\ ** the INDI protocol.
+ 
+\ *P Zooming into this client component, we can find a forground
+\ ** (operator) task and one
+\ ** background task per *\fo{INDI-SERVER}. Each *\fo{INDI-SERVER} manages one
+\ ** socket to a remote INDI server. The foreground or *\fo{MAIN} task send
+\ ** commands to the remote INDI server and the background *\fo{LISTENER} task
+\ ** maganes responses and other notifications asynchronously. 
+\ ** Coordinated access and updates to the properties database is ensured 
+\ ** by one *\fo{/SEMAPHORE} per *\fo{INDI-SERVER}.
+
+\ *R @float Figure,fig-arch
+\ *R @center @image{ntoscript_architecture,,12cm,NTOScript Architecture,.png}
+\ *R @caption{NTOScript architecture.}
+\ *R @end float
+
+\ *P This architecture is only valid for command line interfaces 
+\ ** (script execution). It is certainly possible to write a dedicated one or 
+\ ** several tasks to monitor critcal tasks to react upon property state or 
+\ ** value change. 
+
+\ *P GUI clients work better in event-driven style programming. This has not
+\ ** yet been taken into account and a possible evolution of *\f{NTOScript}
+\ ** is to include a notification interface when a propervy vector changes.
+
+\ ======
+\ *> ###
+\ ======

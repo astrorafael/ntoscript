@@ -1,0 +1,2171 @@
+<?xml version="1.0" ?>
+<defTextVector device="1DRIVER" name="CCD1" state="Ok" label="Camara CCD 1" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defText name="CONFIG" label="Fichero de configuracion">
+        /home/astrorafael/indicor/share/indicor/audine1.xml
+    </defText>
+    <defText name="MODULE" label="Plug-In">
+        /home/astrorafael/indicor/lib/audine.so
+    </defText>
+    <defText name="PARAMS" label="Parametros de inicializacion">
+        PERI_CCD1
+    </defText>
+</defTextVector>2006-08-12T17:56:42: Nuevo dispositivo: 1DRIVER
+
+<defTextVector device="1DRIVER" name="CCD2" state="Ok" label="Camara CCD 2" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defText name="CONFIG" label="Fichero de configuracion">
+        /home/astrorafael/indicor/share/indicor/audine2.xml
+    </defText>
+    <defText name="MODULE" label="Plug-In">
+        /home/astrorafael/indicor/lib/audine.so
+    </defText>
+    <defText name="PARAMS" label="Parametros de inicializacion">
+        PERI_CCD2
+    </defText>
+</defTextVector>
+<defTextVector device="1DRIVER" name="COR" state="Ok" label="COR y Potencia" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defText name="CONFIG" label="Fichero de configuracion">
+        /home/astrorafael/indicor/share/indicor/cor.xml
+    </defText>
+    <defText name="MODULE" label="Plug-In">
+        /home/astrorafael/indicor/lib/cor.so
+    </defText>
+    <defText name="PARAMS" label="Parametros de inicializacion"/>
+</defTextVector>
+<defTextVector device="1DRIVER" name="METEO" state="Ok" label="Estacion Meteorologica" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defText name="CONFIG" label="Fichero de configuracion">
+        /home/astrorafael/indicor/share/indicor/meteo.xml
+    </defText>
+    <defText name="MODULE" label="Plug-In">
+        NULL
+    </defText>
+    <defText name="PARAMS" label="Parametros de inicializacion">
+        PERI_SER_D
+    </defText>
+</defTextVector>
+<defTextVector device="1DRIVER" name="POTENCIA" state="Ok" label="Control de Potencia" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defText name="CONFIG" label="Fichero de configuracion">
+        /home/astrorafael/indicor/share/indicor/corpower.xml
+    </defText>
+    <defText name="MODULE" label="Plug-In">
+        /home/astrorafael/indicor/lib/corpower.so
+    </defText>
+    <defText name="PARAMS" label="Parametros de inicializacion"/>
+</defTextVector>
+<defTextVector device="1DRIVER" name="TELESCOP" state="Ok" label="Telescopio" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defText name="CONFIG" label="Fichero de configuracion">
+        /home/astrorafael/indicor/share/indicor/lx200simple.xml
+    </defText>
+    <defText name="MODULE" label="Plug-In">
+        /home/astrorafael/indicor/lib/lx200.so
+    </defText>
+    <defText name="PARAMS" label="Parametros de inicializacion">
+        PERI_SER_B
+    </defText>
+</defTextVector>
+<defTextVector device="1DRIVER" name="TELESCOP2" state="Ok" label="Telescopio" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defText name="CONFIG" label="Fichero de configuracion">
+        /home/astrorafael/indicor/share/indicor/trackscope.xml
+    </defText>
+    <defText name="MODULE" label="Plug-In">
+        /home/astrorafael/indicor/lib/trackscope.so
+    </defText>
+    <defText name="PARAMS" label="Parametros de inicializacion"/>
+</defTextVector>
+<defSwitchVector device="AUDINE1" name="ADC_SPEED" state="Ok" label="Convertidor A/D" group="Ajustes avanzados" timestamp="2006-08-12T17:56:42" perm="rw" rule="AtMostOne">
+    <defSwitch name="100KBS" label="100 Kbit/s">
+        On
+    </defSwitch>
+    <defSwitch name="200KBS" label="200 Kbit/s">
+        Off
+    </defSwitch>
+</defSwitchVector>2006-08-12T17:56:42: Nuevo dispositivo: AUDINE1
+
+<defNumberVector device="AUDINE1" name="AREA_DIM" state="Ok" label="Dimensiones maximas" group="Geometria" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defNumber name="DIMX" label="anchura [pixels]" format="%g" min="0" max="0" step="0">
+        398
+    </defNumber>
+    <defNumber name="DIMY" label="altura  [pixels]" format="%g" min="0" max="0" step="0">
+        260
+    </defNumber>
+    <defNumber name="PIXSZ" label="Medidas pixel equivalente [um]" format="%g" min="0" max="0" step="0">
+        18
+    </defNumber>
+</defNumberVector>
+<defNumberVector device="AUDINE1" name="AREA_DIM_RECT" state="Idle" label="Definicion del rectangulo" group="Geometria" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="DIMX" label="anchura [pixels]" format="%g" min="1" max="398" step="1">
+        398
+    </defNumber>
+    <defNumber name="DIMY" label="altura  [pixels]" format="%g" min="1" max="260" step="1">
+        260
+    </defNumber>
+    <defNumber name="ORIGX" label="Coord X origen" format="%g" min="0" max="3000" step="1">
+        0
+    </defNumber>
+    <defNumber name="ORIGY" label="Coord Y origen" format="%g" min="0" max="3000" step="1">
+        0
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="AUDINE1" name="AREA_PRESETS" state="Idle" label="Presets rapidos" group="Geometria" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="CENTER" label="Centro">
+        Off
+    </defSwitch>
+    <defSwitch name="CORNER1" label="Esquina 1">
+        On
+    </defSwitch>
+    <defSwitch name="CORNER2" label="Esquina 2">
+        Off
+    </defSwitch>
+    <defSwitch name="CORNER3" label="Esquina 3">
+        Off
+    </defSwitch>
+    <defSwitch name="CORNER4" label="Esquina 4">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defNumberVector device="AUDINE1" name="AREA_PRESET_SIZE" state="Idle" label="Area del preset" group="Geometria" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="SIZE" label="anchura [pixels]" format="%g" min="5" max="100" step="5">
+        20
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="AUDINE1" name="AREA_SELECTION" state="Ok" label="Seleccion del area a adquirir" group="Geometria" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="FULL_FRAME" label="Todo">
+        Off
+    </defSwitch>
+    <defSwitch name="FULL_FRAME_OV" label="Todo + Overscan">
+        On
+    </defSwitch>
+    <defSwitch name="PRESETS" label="Presets rapidos">
+        Off
+    </defSwitch>
+    <defSwitch name="USER_DEFINED" label="Definible por usuario">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defSwitchVector device="AUDINE1" name="BINNING" state="Ok" label="Binning" group="Geometria" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="1X1" label="1x1">
+        Off
+    </defSwitch>
+    <defSwitch name="2X2" label="2x2">
+        On
+    </defSwitch>
+    <defSwitch name="3X3" label="3x3">
+        Off
+    </defSwitch>
+    <defSwitch name="4X4" label="4x4">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defLightVector device="AUDINE1" name="CCD_STATUS" state="Ok" label="Estado de la CCD" timestamp="2006-08-12T17:56:42">
+    <defLight name="ALERT" label="Alarma">
+        Idle
+    </defLight>
+    <defLight name="EXP" label="En exposicion">
+        Idle
+    </defLight>
+    <defLight name="IDLE" label="Desconectada">
+        Idle
+    </defLight>
+    <defLight name="OK" label="En reposo">
+        Ok
+    </defLight>
+    <defLight name="READ" label="Leyendo">
+        Idle
+    </defLight>
+    <defLight name="WAIT" label="En espera">
+        Idle
+    </defLight>
+</defLightVector>
+<defNumberVector device="AUDINE1" name="CCD_TEMP" state="Ok" label="Temperatura CCD" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defNumber name="COLD" label="Cara fria peltier [C]" format="%+2.1f" min="0" max="0" step="0">
+        726.969
+    </defNumber>
+    <defNumber name="HOT" label="Cara caliente peltier [C]" format="%+2.1f" min="0" max="0" step="0">
+        726.969
+    </defNumber>
+    <defNumber name="VPELT" label="Voltaje peltier [V]" format="%+2.1f" min="0" max="0" step="0">
+        9.99969
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="AUDINE1" name="CHIP" state="Ok" label="Seleccion de chip KAF" group="Geometria" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="KAF1600">
+        Off
+    </defSwitch>
+    <defSwitch name="KAF3000">
+        Off
+    </defSwitch>
+    <defSwitch name="KAF3200">
+        Off
+    </defSwitch>
+    <defSwitch name="KAF400">
+        On
+    </defSwitch>
+</defSwitchVector>
+<defSwitchVector device="AUDINE1" name="EXPOSURE" state="Ok" label="Tomar imagenes" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="START" label="Comenzar secuencia">
+        Off
+    </defSwitch>
+    <defSwitch name="STOP" label="Parar/Abortar">
+        On
+    </defSwitch>
+</defSwitchVector>
+<defNumberVector device="AUDINE1" name="EXP_COUNTERS" state="Ok" label="Contadores" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defNumber name="COUNT" label="Tomas restantes" format="%g" min="0" max="0" step="0">
+        0
+    </defNumber>
+    <defNumber name="DELAY" label="Retardo restante [s]" format="%g" min="0" max="0" step="0">
+        0
+    </defNumber>
+    <defNumber name="EXPTIME" label="Tiempo restante [s]" format="%g" min="0" max="0" step="0">
+        0
+    </defNumber>
+    <defNumber name="PROGRESS" label="Datos recibidos [%]" format="%2.0f" min="0" max="0" step="0">
+        0
+    </defNumber>
+</defNumberVector>
+<defNumberVector device="AUDINE1" name="EXP_LIMITS" state="Ok" label="Secuenciador de exposicion" group="Control exposicion" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="COUNT" label="Numero de tomas" format="%g" min="1" max="100" step="1">
+        1
+    </defNumber>
+    <defNumber name="DELAY" label="Retardo entre tomas [s]" format="%g" min="0" max="1200" step="1">
+        0
+    </defNumber>
+    <defNumber name="EXPTIME" label="Tiempo de exposicion [s]" format="%g" min="0" max="1200" step="1">
+        0
+    </defNumber>
+</defNumberVector>
+<defTextVector device="AUDINE1" name="FITS_TEXT_DATA" state="Ok" label="Datos FITS adicionales" group="Datos FITS" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defText name="COMMENT" label="Comentario"/>
+</defTextVector>
+<defNumberVector device="AUDINE1" name="FOCUS_BUFFER" state="Ok" label="Buffers de enfoque" group="Ajustes avanzados" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="SIZE" label="Numero de buffers" format="%g" min="2" max="10" step="1">
+        2
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="AUDINE1" name="IMAGETYP" state="Ok" label="Tipo de imagen" group="Control exposicion" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="BIAS" label="Toma bias">
+        Off
+    </defSwitch>
+    <defSwitch name="DARK" label="Toma oscura">
+        Off
+    </defSwitch>
+    <defSwitch name="FLAT" label="Campo plano">
+        Off
+    </defSwitch>
+    <defSwitch name="FOCUS" label="Enfoque">
+        On
+    </defSwitch>
+    <defSwitch name="OBJECT" label="Objeto">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defNumberVector device="AUDINE1" name="NUM_CLEAR" state="Ok" label="Numero de limpiezas del CCD" group="Ajustes avanzados" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="NUMBER" label="Numero" format="%g" min="1" max="20" step="1">
+        8
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="AUDINE1" name="PATTERN" state="Ok" label="Patron de barras" group="Control exposicion" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="OFF" label="Desactivado">
+        On
+    </defSwitch>
+    <defSwitch name="ON" label="Activado">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defNumberVector device="AUDINE1" name="PHOT_PARS" state="Ok" label="Datos FITS para fotometria" group="Datos FITS" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="GAIN" label="Ganancia [e-/ADU]" format="%g" min="0" max="1000" step="1">
+        0
+    </defNumber>
+    <defNumber name="RDNOISE" label="Ruido lectura 1x1 [e-]" format="%g" min="0" max="1000" step="1">
+        0
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="AUDINE1" name="SAVE_CFG" state="Ok" label="Guardar configuracion" timestamp="2006-08-12T17:56:42" perm="rw" rule="AtMostOne">
+    <defSwitch name="SAVE" label="Guardar">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defNumberVector device="AUDINE1" name="SHUTTER_DELAY" state="Ok" label="Obturador, retardo" group="Ajustes avanzados" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="DELAY" label="Retardo [ms]" format="%g" min="0" max="1000" step="1">
+        800
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="AUDINE1" name="SHUTTER_LOGIC" state="Ok" label="Obturador, logica" group="Ajustes avanzados" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="NEGATIVE" label="Invertida">
+        Off
+    </defSwitch>
+    <defSwitch name="POSITIVE" label="Normal">
+        On
+    </defSwitch>
+</defSwitchVector>
+<defTextVector device="AUDINE1" name="STORAGE" state="Ok" label="Almacenamiento local" group="Almacenamiento" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defText name="DIR" label="Directorio">
+        /home/astrorafael/ccd/2453960
+    </defText>
+    <defText name="PREFIX" label="Prefijo de fichero">
+        focus
+    </defText>
+</defTextVector>
+<defSwitchVector device="AUDINE1" name="STORAGE_FLIP" state="Ok" label="Volteado imagen" group="Control exposicion" timestamp="2006-08-12T17:56:42" perm="rw" rule="AnyOfMany">
+    <defSwitch name="FLIP_L_R" label="Voltear Izda/Dcha">
+        Off
+    </defSwitch>
+    <defSwitch name="FLIP_U_D" label="Voltear arriba/abajo">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defSwitchVector device="AUDINE1" name="STORAGE_SERIES" state="Ok" label="Id. de series de secuencias de imagenes" group="Ajustes avanzados" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="ALWAYS" label="Siempre">
+        Off
+    </defSwitch>
+    <defSwitch name="NEVER" label="Nunca">
+        Off
+    </defSwitch>
+    <defSwitch name="TWO_OR_MORE" label="A partir de dos">
+        On
+    </defSwitch>
+</defSwitchVector>
+<defNumberVector device="AUDINE1" name="WCS_SEED" state="Ok" label="Datos FITS para WCS" group="Datos FITS" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="ROT" label="Rotacion eje AR [D:M:S]" format="%10.6m" min="0" max="360" step="0">
+        0
+    </defNumber>
+    <defNumber name="SCALE" label="Escala imagen 1x1 [arcsec/pixel]" format="%g" min="0" max="100" step="0">
+        0
+    </defNumber>
+</defNumberVector>
+<defTextVector device="AUDINE1" name="XEPHEM_FIFO" state="Ok" label="FIFO XEphem" group="Almacenamiento" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defText name="DIR" label="Directorio">
+        /home/astrorafael/.xephem
+    </defText>
+    <defText name="NAME" label="Nombre de la FIFO">
+        watchfifo
+    </defText>
+</defTextVector>
+<defSwitchVector device="AUDINE2" name="ADC_SPEED" state="Ok" label="Convertidor A/D" group="Ajustes avanzados" timestamp="2006-08-12T17:56:42" perm="rw" rule="AtMostOne">
+    <defSwitch name="100KBS" label="100 Kbit/s">
+        On
+    </defSwitch>
+    <defSwitch name="200KBS" label="200 Kbit/s">
+        Off
+    </defSwitch>
+</defSwitchVector>2006-08-12T17:56:42: Nuevo dispositivo: AUDINE2
+
+<defNumberVector device="AUDINE2" name="AREA_DIM" state="Ok" label="Dimensiones maximas" group="Geometria" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defNumber name="DIMX" label="anchura [pixels]" format="%g" min="0" max="0" step="0">
+        398
+    </defNumber>
+    <defNumber name="DIMY" label="altura  [pixels]" format="%g" min="0" max="0" step="0">
+        260
+    </defNumber>
+    <defNumber name="PIXSZ" label="Medidas pixel equivalente [um]" format="%g" min="0" max="0" step="0">
+        18
+    </defNumber>
+</defNumberVector>
+<defNumberVector device="AUDINE2" name="AREA_DIM_RECT" state="Idle" label="Definicion del rectangulo" group="Geometria" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="DIMX" label="anchura [pixels]" format="%g" min="1" max="398" step="1">
+        398
+    </defNumber>
+    <defNumber name="DIMY" label="altura  [pixels]" format="%g" min="1" max="260" step="1">
+        260
+    </defNumber>
+    <defNumber name="ORIGX" label="Coord X origen" format="%g" min="0" max="3000" step="1">
+        0
+    </defNumber>
+    <defNumber name="ORIGY" label="Coord Y origen" format="%g" min="0" max="3000" step="1">
+        0
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="AUDINE2" name="AREA_PRESETS" state="Idle" label="Presets rapidos" group="Geometria" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="CENTER" label="Centro">
+        Off
+    </defSwitch>
+    <defSwitch name="CORNER1" label="Esquina 1">
+        On
+    </defSwitch>
+    <defSwitch name="CORNER2" label="Esquina 2">
+        Off
+    </defSwitch>
+    <defSwitch name="CORNER3" label="Esquina 3">
+        Off
+    </defSwitch>
+    <defSwitch name="CORNER4" label="Esquina 4">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defNumberVector device="AUDINE2" name="AREA_PRESET_SIZE" state="Idle" label="Area del preset" group="Geometria" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="SIZE" label="anchura [pixels]" format="%g" min="5" max="100" step="5">
+        20
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="AUDINE2" name="AREA_SELECTION" state="Ok" label="Seleccion del area a adquirir" group="Geometria" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="FULL_FRAME" label="Todo">
+        Off
+    </defSwitch>
+    <defSwitch name="FULL_FRAME_OV" label="Todo + Overscan">
+        On
+    </defSwitch>
+    <defSwitch name="PRESETS" label="Presets rapidos">
+        Off
+    </defSwitch>
+    <defSwitch name="USER_DEFINED" label="Definible por usuario">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defSwitchVector device="AUDINE2" name="BINNING" state="Ok" label="Binning" group="Geometria" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="1X1" label="1x1">
+        Off
+    </defSwitch>
+    <defSwitch name="2X2" label="2x2">
+        On
+    </defSwitch>
+    <defSwitch name="3X3" label="3x3">
+        Off
+    </defSwitch>
+    <defSwitch name="4X4" label="4x4">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defLightVector device="AUDINE2" name="CCD_STATUS" state="Ok" label="Estado de la CCD" timestamp="2006-08-12T17:56:42">
+    <defLight name="ALERT" label="Alarma">
+        Idle
+    </defLight>
+    <defLight name="EXP" label="En exposicion">
+        Idle
+    </defLight>
+    <defLight name="IDLE" label="Desconectada">
+        Idle
+    </defLight>
+    <defLight name="OK" label="En reposo">
+        Ok
+    </defLight>
+    <defLight name="READ" label="Leyendo">
+        Idle
+    </defLight>
+    <defLight name="WAIT" label="En espera">
+        Idle
+    </defLight>
+</defLightVector>
+<defNumberVector device="AUDINE2" name="CCD_TEMP" state="Ok" label="Temperatura CCD" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defNumber name="COLD" label="Cara fria peltier [C]" format="%+2.1f" min="0" max="0" step="0">
+        726.969
+    </defNumber>
+    <defNumber name="HOT" label="Cara caliente peltier [C]" format="%+2.1f" min="0" max="0" step="0">
+        726.969
+    </defNumber>
+    <defNumber name="VPELT" label="Voltaje peltier [V]" format="%+2.1f" min="0" max="0" step="0">
+        9.99969
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="AUDINE2" name="CHIP" state="Ok" label="Seleccion de chip KAF" group="Geometria" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="KAF1600">
+        Off
+    </defSwitch>
+    <defSwitch name="KAF3000">
+        Off
+    </defSwitch>
+    <defSwitch name="KAF3200">
+        Off
+    </defSwitch>
+    <defSwitch name="KAF400">
+        On
+    </defSwitch>
+</defSwitchVector>
+<defSwitchVector device="AUDINE2" name="EXPOSURE" state="Ok" label="Tomar imagenes" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="START" label="Comenzar secuencia">
+        Off
+    </defSwitch>
+    <defSwitch name="STOP" label="Parar/Abortar">
+        On
+    </defSwitch>
+</defSwitchVector>
+<defNumberVector device="AUDINE2" name="EXP_COUNTERS" state="Ok" label="Contadores" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defNumber name="COUNT" label="Tomas restantes" format="%g" min="0" max="0" step="0">
+        0
+    </defNumber>
+    <defNumber name="DELAY" label="Retardo restante [s]" format="%g" min="0" max="0" step="0">
+        0
+    </defNumber>
+    <defNumber name="EXPTIME" label="Tiempo restante [s]" format="%g" min="0" max="0" step="0">
+        0
+    </defNumber>
+    <defNumber name="PROGRESS" label="Datos recibidos [%]" format="%2.0f" min="0" max="0" step="0">
+        0
+    </defNumber>
+</defNumberVector>
+<defNumberVector device="AUDINE2" name="EXP_LIMITS" state="Ok" label="Secuenciador de exposicion" group="Control exposicion" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="COUNT" label="Numero de tomas" format="%g" min="1" max="100" step="1">
+        1
+    </defNumber>
+    <defNumber name="DELAY" label="Retardo entre tomas [s]" format="%g" min="0" max="1200" step="1">
+        0
+    </defNumber>
+    <defNumber name="EXPTIME" label="Tiempo de exposicion [s]" format="%g" min="0" max="1200" step="1">
+        0
+    </defNumber>
+</defNumberVector>
+<defTextVector device="AUDINE2" name="FITS_TEXT_DATA" state="Ok" label="Datos FITS adicionales" group="Datos FITS" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defText name="COMMENT" label="Comentario"/>
+</defTextVector>
+<defNumberVector device="AUDINE2" name="FOCUS_BUFFER" state="Ok" label="Buffers de enfoque" group="Ajustes avanzados" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="SIZE" label="Numero de buffers" format="%g" min="2" max="10" step="1">
+        2
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="AUDINE2" name="IMAGETYP" state="Ok" label="Tipo de imagen" group="Control exposicion" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="BIAS" label="Toma bias">
+        Off
+    </defSwitch>
+    <defSwitch name="DARK" label="Toma oscura">
+        Off
+    </defSwitch>
+    <defSwitch name="FLAT" label="Campo plano">
+        Off
+    </defSwitch>
+    <defSwitch name="FOCUS" label="Enfoque">
+        On
+    </defSwitch>
+    <defSwitch name="OBJECT" label="Objeto">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defNumberVector device="AUDINE2" name="NUM_CLEAR" state="Ok" label="Numero de limpiezas del CCD" group="Ajustes avanzados" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="NUMBER" label="Numero" format="%g" min="1" max="20" step="1">
+        8
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="AUDINE2" name="PATTERN" state="Ok" label="Patron de barras" group="Control exposicion" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="OFF" label="Desactivado">
+        On
+    </defSwitch>
+    <defSwitch name="ON" label="Activado">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defNumberVector device="AUDINE2" name="PHOT_PARS" state="Ok" label="Datos FITS para fotometria" group="Datos FITS" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="GAIN" label="Ganancia [e-/ADU]" format="%g" min="0" max="1000" step="1">
+        0
+    </defNumber>
+    <defNumber name="RDNOISE" label="Ruido lectura 1x1 [e-]" format="%g" min="0" max="1000" step="1">
+        0
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="AUDINE2" name="SAVE_CFG" state="Ok" label="Guardar configuracion" timestamp="2006-08-12T17:56:42" perm="rw" rule="AtMostOne">
+    <defSwitch name="SAVE" label="Guardar">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defNumberVector device="AUDINE2" name="SHUTTER_DELAY" state="Ok" label="Obturador, retardo" group="Ajustes avanzados" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="DELAY" label="Retardo [ms]" format="%g" min="0" max="1000" step="1">
+        800
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="AUDINE2" name="SHUTTER_LOGIC" state="Ok" label="Obturador, logica" group="Ajustes avanzados" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="NEGATIVE" label="Invertida">
+        Off
+    </defSwitch>
+    <defSwitch name="POSITIVE" label="Normal">
+        On
+    </defSwitch>
+</defSwitchVector>
+<defTextVector device="AUDINE2" name="STORAGE" state="Ok" label="Almacenamiento local" group="Almacenamiento" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defText name="DIR" label="Directorio">
+        /home/astrorafael/ccd/2453960
+    </defText>
+    <defText name="PREFIX" label="Prefijo de fichero">
+        focus
+    </defText>
+</defTextVector>
+<defSwitchVector device="AUDINE2" name="STORAGE_FLIP" state="Ok" label="Volteado imagen" group="Control exposicion" timestamp="2006-08-12T17:56:42" perm="rw" rule="AnyOfMany">
+    <defSwitch name="FLIP_L_R" label="Voltear Izda/Dcha">
+        Off
+    </defSwitch>
+    <defSwitch name="FLIP_U_D" label="Voltear arriba/abajo">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defSwitchVector device="AUDINE2" name="STORAGE_SERIES" state="Ok" label="Id. de series de secuencias de imagenes" group="Ajustes avanzados" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="ALWAYS" label="Siempre">
+        Off
+    </defSwitch>
+    <defSwitch name="NEVER" label="Nunca">
+        Off
+    </defSwitch>
+    <defSwitch name="TWO_OR_MORE" label="A partir de dos">
+        On
+    </defSwitch>
+</defSwitchVector>
+<defNumberVector device="AUDINE2" name="WCS_SEED" state="Ok" label="Datos FITS para WCS" group="Datos FITS" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="ROT" label="Rotacion eje AR [D:M:S]" format="%10.6m" min="0" max="360" step="0">
+        0
+    </defNumber>
+    <defNumber name="SCALE" label="Escala imagen 1x1 [arcsec/pixel]" format="%g" min="0" max="100" step="0">
+        0
+    </defNumber>
+</defNumberVector>
+<defTextVector device="AUDINE2" name="XEPHEM_FIFO" state="Ok" label="FIFO XEphem" group="Almacenamiento" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defText name="DIR" label="Directorio">
+        /home/astrorafael/.xephem
+    </defText>
+    <defText name="NAME" label="Nombre de la FIFO">
+        watchfifo
+    </defText>
+</defTextVector>
+<defNumberVector device="COR" name="CCD_TEMP" state="Ok" label="Temperatura CCD" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defNumber name="COLD" label="Cara fria peltier [C]" format="%+2.1f" min="0" max="0" step="0">
+        -273
+    </defNumber>
+    <defNumber name="HOT" label="Cara caliente peltier [C]" format="%+2.1f" min="0" max="0" step="0">
+        -273
+    </defNumber>
+    <defNumber name="VPELT" label="Voltaje peltier [V]" format="%+2.1f" min="0" max="0" step="0">
+        0
+    </defNumber>
+</defNumberVector>2006-08-12T17:56:43: Nuevo dispositivo: COR
+
+<defTextVector device="COR" name="DRIVER" state="Ok" label="Driver INDI" group="Acerca de" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defText name="AUTHOR" label="Autor">
+        Rafael Gonzalez Fuentetaja
+    </defText>
+    <defText name="DATE" label="Fecha compilacion">
+        Jul 17 2006
+    </defText>
+    <defText name="PROGRAM" label="Identificacion">
+        pacorro
+    </defText>
+    <defText name="TIME" label="Hora  compilacion">
+        22:25:32
+    </defText>
+</defTextVector>
+<defTextVector device="COR" name="FIRMWARE" state="Ok" label="Firmware COR" group="Acerca de" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defText name="DATE" label="Fecha compilacion">
+        Jun 22 2005
+    </defText>
+    <defText name="PROGRAM" label="Identificacion">
+        corplus 
+    </defText>
+    <defText name="SEQ_KCOL" label="Paso secuenciador Xilinx">
+        5
+    </defText>
+    <defText name="TIME" label="Hora  compilacion">
+        18:55:10
+    </defText>
+</defTextVector>
+<defSwitchVector device="COR" name="HARDWARE" state="Ok" label="Reset hardware COR" timestamp="2006-08-12T17:56:42" perm="rw" rule="AtMostOne">
+    <defSwitch name="RESET" label="Reset">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defSwitchVector device="COR" name="HUB" state="Ok" label="Conectar al COR" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="CONNECT" label="Conectar">
+        On
+    </defSwitch>
+    <defSwitch name="DISCONNECT" label="Desconectar">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defNumberVector device="COR" name="IP_ADDRESS" state="Ok" label="Direccion IP Remota" group="Configuracion Red" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="IP1" label="N.x.x.x" format="%3.0f" min="1" max="254" step="1">
+        192
+    </defNumber>
+    <defNumber name="IP2" label="x.N.x.x" format="%3.0f" min="0" max="255" step="1">
+        168
+    </defNumber>
+    <defNumber name="IP3" label="x.x.N.x" format="%3.0f" min="0" max="255" step="1">
+        0
+    </defNumber>
+    <defNumber name="IP4" label="x.x.x.N" format="%3.0f" min="1" max="254" step="1">
+        98
+    </defNumber>
+</defNumberVector>
+<defNumberVector device="COR" name="POLLING" state="Ok" label="Sondeo COR" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="PERIOD" label="Periodo [ms]" format="%4.0f" min="1000" max="10000" step="500">
+        2000
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="COR" name="SAVE_CFG" state="Ok" label="Guardar configuracion" timestamp="2006-08-12T17:56:42" perm="rw" rule="AtMostOne">
+    <defSwitch name="SAVE" label="Guardar">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defNumberVector device="COR" name="UDP_PORT" state="Ok" label="Puerto UDP Local y Remoto" group="Configuracion Red" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defNumber name="PORT" label="Puerto" format="%3.0f" min="0" max="0" step="0">
+        1236
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="LX200" name="ABORT_MOTION" state="Ok" label="Abortar Movimiento" group="Control movimiento" timestamp="2006-08-12T17:56:42" perm="rw" rule="AtMostOne">
+    <defSwitch name="ABORT" label="Abortar">
+        Off
+    </defSwitch>
+</defSwitchVector>2006-08-12T17:56:43: Nuevo dispositivo: LX200
+
+<defSwitchVector device="LX200" name="COORD_FORMAT" state="Alert" label="Formato de coordenadas" group="Posicion" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="LONG" label="Largo">
+        Off
+    </defSwitch>
+    <defSwitch name="SHORT" label="Corto">
+        On
+    </defSwitch>
+</defSwitchVector>
+<defTextVector device="LX200" name="EDB" state="Ok" label="Objeto observado" group="Posicion" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defText name="LINE" label="Datos .edb">
+        M82,f|G|Sd, 9:55:54.0, 69:40:59,8.60,2000,672|258.259|64.9412
+    </defText>
+</defTextVector>
+<defNumberVector device="LX200" name="EQUATORIAL_COORD" state="Ok" label="Coord. Ecuatoriales J2000" group="Posicion" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="DEC" label="DEC [D:M:S]" format="%10.6m" min="-90" max="90" step="0">
+        89.2833
+    </defNumber>
+    <defNumber name="RA" label="AR  [H:M:S]" format="%10.6m" min="0" max="24" step="0">
+        9.42833
+    </defNumber>
+</defNumberVector>
+<defTextVector device="LX200" name="FITS_TEXT_DATA" state="Ok" label="Datos FITS" group="Datos FITS adicionales" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defText name="LOCATION" label="Emplazamiento">
+        Bonilla, Cuenca
+    </defText>
+    <defText name="OBSERVER" label="Observador(es)">
+        Rafael Gonzalez Fuentetaja
+    </defText>
+    <defText name="TELESCOP" label="Telescopio">
+        LX200GPS 10 inch
+    </defText>
+</defTextVector>
+<defTextVector device="LX200" name="MOUNT" state="Ok" label="Datos Montura" group="Datos FITS adicionales" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defText name="DATE" label="Fecha Firmware"/>
+    <defText name="TELESCOP" label="Modelo de montura"/>
+    <defText name="TIME" label="Hora Firmware"/>
+    <defText name="VERSION" label="Version firmware"/>
+</defTextVector>
+<defSwitchVector device="LX200" name="MOVEMENT" state="Ok" label="Movimiento" group="Control movimiento" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="E" label="Este">
+        Off
+    </defSwitch>
+    <defSwitch name="N" label="Norte">
+        Off
+    </defSwitch>
+    <defSwitch name="O" label="Oeste">
+        Off
+    </defSwitch>
+    <defSwitch name="S" label="Sur">
+        On
+    </defSwitch>
+</defSwitchVector>
+<defTextVector device="LX200" name="OBJECT" state="Ok" label="Objeto observado" group="Posicion" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defText name="NAME" label="Denominacion">
+        M82
+    </defText>
+</defTextVector>
+<defSwitchVector device="LX200" name="ON_COORD_SET" state="Ok" label="Accion" group="Posicion" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="SLEW" label="Ir a">
+        On
+    </defSwitch>
+    <defSwitch name="SYNC" label="Sincronizar">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defNumberVector device="LX200" name="OPTICS" state="Ok" label="Optica" group="Datos FITS adicionales" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="DIAMETER" label="Diametro  [cm]" format="%g" min="0" max="200" step="1">
+        25.4
+    </defNumber>
+    <defNumber name="FOCALLEN" label="Focal ef. [cm]" format="%g" min="0" max="10000" step="1">
+        254
+    </defNumber>
+</defNumberVector>
+<defTextVector device="LX200" name="RAW_COMMAND" state="Ok" label="Comando a pelo" group="Miscelanea" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defText name="REQUEST" label="Cadena a enviar">
+        :D
+    </defText>
+    <defText name="RESPONSE" label="Respuesta recibida"/>
+</defTextVector>
+<defSwitchVector device="LX200" name="SAVE_CFG" state="Ok" label="Guardar configuracion" timestamp="2006-08-12T17:56:42" perm="rw" rule="AtMostOne">
+    <defSwitch name="SAVE" label="Guardar">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defSwitchVector device="LX200" name="SLEW_RATE" state="Ok" label="Velocidad" group="Control movimiento" timestamp="2006-08-12T17:56:42" perm="rw" rule="OneOfMany">
+    <defSwitch name="CENTERING" label="Centrado">
+        Off
+    </defSwitch>
+    <defSwitch name="FIND" label="Busqueda">
+        On
+    </defSwitch>
+    <defSwitch name="GUIDE" label="Guiado">
+        Off
+    </defSwitch>
+    <defSwitch name="MAX" label="Maxima">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defSwitchVector device="METEO" name="SAVE_CFG" state="Idle" label="Guardar configuracion" timestamp="2006-08-12T17:56:42" perm="rw" rule="AtMostOne">
+    <defSwitch name="SAVE" label="Guardar">
+        Off
+    </defSwitch>
+</defSwitchVector>2006-08-12T17:56:43: Nuevo dispositivo: METEO
+
+<defNumberVector device="METEO" name="TEMPERATURE" state="Idle" label="Temperatura" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defNumber name="AMB_TEMP" label="Temperatura Ambiente [C]" format="%3.0f" min="0" max="0" step="0">
+        25
+    </defNumber>
+    <defNumber name="DEW_POINT" label="Punto de rocio [C]" format="%3.0f" min="0" max="0" step="0">
+        10
+    </defNumber>
+    <defNumber name="REL_HIGRO" label="Humedad relativa [%]" format="%2.0f" min="0" max="0" step="0">
+        30
+    </defNumber>
+</defNumberVector>
+<defLightVector device="METEO" name="WEA_SENSORS" state="Idle" label="Alarmas meteorologicas" timestamp="2006-08-12T17:56:42">
+    <defLight name="CLOUD_SENSOR" label="Sensor de nubes">
+        Idle
+    </defLight>
+    <defLight name="RAIN_SENSOR" label="Sensor de lluvia">
+        Idle
+    </defLight>
+</defLightVector>
+<defTextVector device="METEO" name="WIND_DIR" state="Idle" label="Direccion del viento" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defText name="DIR" label="Direccion del viento">
+        N
+    </defText>
+</defTextVector>
+<defNumberVector device="METEO" name="WIND_SPEED" state="Idle" label="Velocidad del viento" timestamp="2006-08-12T17:56:42" perm="ro">
+    <defNumber name="SPEED" label="Velocidad del Viento [ADUs]" format="%5.0f" min="0" max="0" step="0">
+        0
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="POTENCIA" name="ACTUATORS_ARM" state="Ok" label="Armar Reles" timestamp="2006-08-12T17:56:42" perm="rw" rule="AnyOfMany">
+    <defSwitch name="OUTPUT1" label="Aux">
+        Off
+    </defSwitch>
+    <defSwitch name="OUTPUT2" label="CCD">
+        Off
+    </defSwitch>
+    <defSwitch name="OUTPUT3" label="Cupula">
+        Off
+    </defSwitch>
+    <defSwitch name="OUTPUT4" label="Luz Flats">
+        Off
+    </defSwitch>
+    <defSwitch name="OUTPUT5" label="Calentador">
+        Off
+    </defSwitch>
+    <defSwitch name="OUTPUT6" label="Meteo">
+        Off
+    </defSwitch>
+    <defSwitch name="OUTPUT7" label="PC">
+        Off
+    </defSwitch>
+    <defSwitch name="OUTPUT8" label="Telescopio">
+        Off
+    </defSwitch>
+</defSwitchVector>2006-08-12T17:56:43: Nuevo dispositivo: POTENCIA
+
+<defLightVector device="POTENCIA" name="ACTUATORS_STATUS" state="Ok" label="Estado Potencia" timestamp="2006-08-12T17:56:42">
+    <defLight name="OUTPUT1" label="Aux">
+        Ok
+    </defLight>
+    <defLight name="OUTPUT2" label="CCD">
+        Ok
+    </defLight>
+    <defLight name="OUTPUT3" label="Cupula">
+        Ok
+    </defLight>
+    <defLight name="OUTPUT4" label="Luz Flats">
+        Ok
+    </defLight>
+    <defLight name="OUTPUT5" label="Calentador">
+        Ok
+    </defLight>
+    <defLight name="OUTPUT6" label="Meteo">
+        Ok
+    </defLight>
+    <defLight name="OUTPUT7" label="PC">
+        Ok
+    </defLight>
+    <defLight name="OUTPUT8" label="Telescopio">
+        Ok
+    </defLight>
+</defLightVector>
+<defSwitchVector device="POTENCIA" name="ACTUATORS_TRG" state="Ok" label="Disparar Reles" timestamp="2006-08-12T17:56:42" perm="rw" rule="AtMostOne">
+    <defSwitch name="CANCEL" label="Cancelar">
+        Off
+    </defSwitch>
+    <defSwitch name="SWITCH_OFF" label="Apagar">
+        Off
+    </defSwitch>
+    <defSwitch name="SWITCH_ON" label="Encender">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defLightVector device="POTENCIA" name="INPUTS_G1" state="Ok" timestamp="2006-08-12T17:56:42">
+    <defLight name="INPUT1" label="Entrada  1">
+        Alert
+    </defLight>
+    <defLight name="INPUT2" label="Entrada  2">
+        Ok
+    </defLight>
+    <defLight name="INPUT3" label="Entrada  3">
+        Alert
+    </defLight>
+    <defLight name="INPUT4" label="Entrada  4">
+        Ok
+    </defLight>
+    <defLight name="INPUT5" label="Entrada  5">
+        Alert
+    </defLight>
+    <defLight name="INPUT6" label="Entrada  6">
+        Ok
+    </defLight>
+</defLightVector>
+<defLightVector device="POTENCIA" name="INPUTS_G2" state="Ok" timestamp="2006-08-12T17:56:42">
+    <defLight name="INPUT1" label="Entrada  7">
+        Alert
+    </defLight>
+    <defLight name="INPUT2" label="Entrada  8">
+        Ok
+    </defLight>
+    <defLight name="INPUT3" label="Entrada  9">
+        Alert
+    </defLight>
+    <defLight name="INPUT4" label="Entrada 10">
+        Ok
+    </defLight>
+    <defLight name="INPUT5" label="Entrada 11">
+        Alert
+    </defLight>
+    <defLight name="INPUT6" label="Entrada 12">
+        Ok
+    </defLight>
+</defLightVector>
+<defLightVector device="POTENCIA" name="INPUTS_G3" state="Ok" timestamp="2006-08-12T17:56:42">
+    <defLight name="INPUT1" label="Entrada 13">
+        Alert
+    </defLight>
+    <defLight name="INPUT2" label="Entrada 14">
+        Ok
+    </defLight>
+    <defLight name="INPUT3" label="Entrada 15">
+        Alert
+    </defLight>
+    <defLight name="INPUT4" label="Entrada 16">
+        Ok
+    </defLight>
+    <defLight name="INPUT5" label="Entrada 17">
+        Alert
+    </defLight>
+    <defLight name="INPUT6" label="Entrada 18">
+        Ok
+    </defLight>
+</defLightVector>
+<defLightVector device="POTENCIA" name="INPUTS_G4" state="Ok" timestamp="2006-08-12T17:56:42">
+    <defLight name="INPUT1" label="Entrada 19">
+        Alert
+    </defLight>
+    <defLight name="INPUT2" label="Entrada 20">
+        Ok
+    </defLight>
+    <defLight name="INPUT3" label="Entrada 21">
+        Alert
+    </defLight>
+    <defLight name="INPUT4" label="Entrada 22">
+        Ok
+    </defLight>
+    <defLight name="INPUT5" label="Entrada 23">
+        Alert
+    </defLight>
+    <defLight name="INPUT6" label="Entrada 24">
+        Ok
+    </defLight>
+</defLightVector>
+<defSwitchVector device="POTENCIA" name="SAVE_CFG" state="Ok" label="Guardar configuracion" timestamp="2006-08-12T17:56:42" perm="rw" rule="AtMostOne">
+    <defSwitch name="SAVE" label="Guardar">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<defTextVector device="TrackScope" name="EDB" state="Idle" label="Objeto observado" group="Posicion" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defText name="LINE" label="Datos .edb">
+        M82,f|G|Sd, 9:55:54.0, 69:40:59,8.60,2000,672|258.259|64.9412
+    </defText>
+</defTextVector>2006-08-12T17:56:43: Nuevo dispositivo: TrackScope
+
+<defNumberVector device="TrackScope" name="EQUATORIAL_COORD" state="Idle" label="Coord. Ecuatoriales J2000" group="Posicion" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="DEC" label="DEC [D:M:S]" format="%10.6m" min="-90" max="90" step="0">
+        69.6831
+    </defNumber>
+    <defNumber name="RA" label="AR  [H:M:S]" format="%10.6m" min="0" max="24" step="0">
+        9.93167
+    </defNumber>
+</defNumberVector>
+<defTextVector device="TrackScope" name="FITS_TEXT_DATA" state="Idle" label="Datos FITS" group="Datos FITS adicionales" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defText name="LOCATION" label="Emplazamiento">
+        Bonilla, Cuenca
+    </defText>
+    <defText name="OBSERVER" label="Observador(es)">
+        Rafael Gonzalez Fuentetaja
+    </defText>
+    <defText name="TELESCOP" label="Telescopio">
+        LX200GPS 10 inch
+    </defText>
+</defTextVector>
+<defTextVector device="TrackScope" name="OBJECT" state="Idle" label="Objeto observado" group="Posicion" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defText name="NAME" label="Denominacion">
+        M82
+    </defText>
+</defTextVector>
+<defNumberVector device="TrackScope" name="OPTICS" state="Idle" label="Optica" group="Datos FITS adicionales" timestamp="2006-08-12T17:56:42" perm="rw">
+    <defNumber name="DIAMETER" label="Diametro  [cm]" format="%g" min="0" max="200" step="1">
+        25.4
+    </defNumber>
+    <defNumber name="FOCALLEN" label="Focal ef. [cm]" format="%g" min="0" max="10000" step="1">
+        254
+    </defNumber>
+</defNumberVector>
+<defSwitchVector device="TrackScope" name="SAVE_CFG" state="Idle" label="Guardar configuracion" timestamp="2006-08-12T17:56:42" perm="rw" rule="AtMostOne">
+    <defSwitch name="SAVE" label="Guardar">
+        Off
+    </defSwitch>
+</defSwitchVector>
+<setLightVector device="POTENCIA" name="INPUTS_G1" state="Ok" timestamp="2006-08-12T17:56:42">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G2" state="Ok" timestamp="2006-08-12T17:56:42">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G3" state="Ok" timestamp="2006-08-12T17:56:42">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G4" state="Ok" timestamp="2006-08-12T17:56:42">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="ACTUATORS_STATUS" state="Ok" timestamp="2006-08-12T17:56:42">
+    <oneLight name="OUTPUT1">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT6">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT7">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT8">
+        Ok
+    </oneLight>
+</setLightVector>
+<setSwitchVector device="COR" name="HUB" state="Busy" timestamp="2006-08-12T17:56:43"/>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:43">
+    <oneNumber name="COLD">
+        -273
+    </oneNumber>
+    <oneNumber name="HOT">
+        -273
+    </oneNumber>
+    <oneNumber name="VPELT">
+        0
+    </oneNumber>
+</setNumberVector>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:43"/>
+<setTextVector device="COR" name="DRIVER" state="Ok" timestamp="2006-08-12T17:56:43"/>
+<setTextVector device="COR" name="FIRMWARE" state="Ok" timestamp="2006-08-12T17:56:43"/>
+<setSwitchVector device="COR" name="HARDWARE" state="Ok" timestamp="2006-08-12T17:56:43"/>
+<setSwitchVector device="COR" name="HUB" state="Ok" timestamp="2006-08-12T17:56:43"/>
+<setNumberVector device="COR" name="IP_ADDRESS" state="Ok" timestamp="2006-08-12T17:56:43"/>
+<setNumberVector device="COR" name="POLLING" state="Ok" timestamp="2006-08-12T17:56:43"/>
+<setSwitchVector device="COR" name="SAVE_CFG" state="Ok" timestamp="2006-08-12T17:56:43"/>
+<setNumberVector device="COR" name="UDP_PORT" state="Ok" timestamp="2006-08-12T17:56:43"/>
+<setLightVector device="POTENCIA" name="INPUTS_G1" state="Ok" timestamp="2006-08-12T17:56:44">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT4">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G2" state="Ok" timestamp="2006-08-12T17:56:44">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT4">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G3" state="Ok" timestamp="2006-08-12T17:56:44">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT4">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G4" state="Ok" timestamp="2006-08-12T17:56:44">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT4">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="ACTUATORS_STATUS" state="Ok" timestamp="2006-08-12T17:56:44">
+    <oneLight name="OUTPUT1">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT6">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT7">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT8">
+        Ok
+    </oneLight>
+</setLightVector>Gforth 0.6.2, Copyright (C) 1995-2003 Free Software Foundation, Inc.
+Gforth comes with ABSOLUTELY NO WARRANTY; for details type `license'
+Type `bye' to exit
+
+<setSwitchVector device="COR" name="HUB" state="Busy" timestamp="2006-08-12T17:56:45"/>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:45">
+    <oneNumber name="COLD">
+        -273
+    </oneNumber>
+    <oneNumber name="HOT">
+        -273
+    </oneNumber>
+    <oneNumber name="VPELT">
+        0
+    </oneNumber>
+</setNumberVector>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:45"/>
+<setTextVector device="COR" name="DRIVER" state="Ok" timestamp="2006-08-12T17:56:45"/>
+<setTextVector device="COR" name="FIRMWARE" state="Ok" timestamp="2006-08-12T17:56:45"/>
+<setSwitchVector device="COR" name="HARDWARE" state="Ok" timestamp="2006-08-12T17:56:45"/>
+<setSwitchVector device="COR" name="HUB" state="Ok" timestamp="2006-08-12T17:56:45"/>
+<setNumberVector device="COR" name="IP_ADDRESS" state="Ok" timestamp="2006-08-12T17:56:45"/>
+<setNumberVector device="COR" name="POLLING" state="Ok" timestamp="2006-08-12T17:56:45"/>
+<setSwitchVector device="COR" name="SAVE_CFG" state="Ok" timestamp="2006-08-12T17:56:45"/>
+<setNumberVector device="COR" name="UDP_PORT" state="Ok" timestamp="2006-08-12T17:56:45"/>
+<setLightVector device="POTENCIA" name="INPUTS_G1" state="Ok" timestamp="2006-08-12T17:56:46">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT4">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G2" state="Ok" timestamp="2006-08-12T17:56:46">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT4">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G3" state="Ok" timestamp="2006-08-12T17:56:46">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT4">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G4" state="Ok" timestamp="2006-08-12T17:56:46">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT4">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="ACTUATORS_STATUS" state="Ok" timestamp="2006-08-12T17:56:46">
+    <oneLight name="OUTPUT1">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT6">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT7">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT8">
+        Ok
+    </oneLight>
+</setLightVector>
+<setSwitchVector device="COR" name="HUB" state="Busy" timestamp="2006-08-12T17:56:47"/>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:47">
+    <oneNumber name="COLD">
+        -273
+    </oneNumber>
+    <oneNumber name="HOT">
+        -273
+    </oneNumber>
+    <oneNumber name="VPELT">
+        0
+    </oneNumber>
+</setNumberVector>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:47"/>
+<setTextVector device="COR" name="DRIVER" state="Ok" timestamp="2006-08-12T17:56:47"/>
+<setTextVector device="COR" name="FIRMWARE" state="Ok" timestamp="2006-08-12T17:56:47"/>
+<setSwitchVector device="COR" name="HARDWARE" state="Ok" timestamp="2006-08-12T17:56:47"/>
+<setSwitchVector device="COR" name="HUB" state="Ok" timestamp="2006-08-12T17:56:47"/>
+<setNumberVector device="COR" name="IP_ADDRESS" state="Ok" timestamp="2006-08-12T17:56:47"/>
+<setNumberVector device="COR" name="POLLING" state="Ok" timestamp="2006-08-12T17:56:47"/>
+<setSwitchVector device="COR" name="SAVE_CFG" state="Ok" timestamp="2006-08-12T17:56:47"/>
+<setNumberVector device="COR" name="UDP_PORT" state="Ok" timestamp="2006-08-12T17:56:47"/>
+<setLightVector device="POTENCIA" name="INPUTS_G1" state="Ok" timestamp="2006-08-12T17:56:48">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G2" state="Ok" timestamp="2006-08-12T17:56:48">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G3" state="Ok" timestamp="2006-08-12T17:56:48">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G4" state="Ok" timestamp="2006-08-12T17:56:48">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="ACTUATORS_STATUS" state="Ok" timestamp="2006-08-12T17:56:48">
+    <oneLight name="OUTPUT1">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT6">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT7">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT8">
+        Ok
+    </oneLight>
+</setLightVector>
+<setSwitchVector device="COR" name="HUB" state="Busy" timestamp="2006-08-12T17:56:49"/>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:49">
+    <oneNumber name="COLD">
+        -273
+    </oneNumber>
+    <oneNumber name="HOT">
+        -273
+    </oneNumber>
+    <oneNumber name="VPELT">
+        0
+    </oneNumber>
+</setNumberVector>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:49"/>
+<setTextVector device="COR" name="DRIVER" state="Ok" timestamp="2006-08-12T17:56:49"/>
+<setTextVector device="COR" name="FIRMWARE" state="Ok" timestamp="2006-08-12T17:56:49"/>
+<setSwitchVector device="COR" name="HARDWARE" state="Ok" timestamp="2006-08-12T17:56:49"/>
+<setSwitchVector device="COR" name="HUB" state="Ok" timestamp="2006-08-12T17:56:49"/>
+<setNumberVector device="COR" name="IP_ADDRESS" state="Ok" timestamp="2006-08-12T17:56:49"/>
+<setNumberVector device="COR" name="POLLING" state="Ok" timestamp="2006-08-12T17:56:49"/>
+<setSwitchVector device="COR" name="SAVE_CFG" state="Ok" timestamp="2006-08-12T17:56:49"/>
+<setNumberVector device="COR" name="UDP_PORT" state="Ok" timestamp="2006-08-12T17:56:49"/>
+<setLightVector device="POTENCIA" name="INPUTS_G1" state="Ok" timestamp="2006-08-12T17:56:50">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G2" state="Ok" timestamp="2006-08-12T17:56:50">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G3" state="Ok" timestamp="2006-08-12T17:56:50">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G4" state="Ok" timestamp="2006-08-12T17:56:50">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT5">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT6">
+        Ok
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="ACTUATORS_STATUS" state="Ok" timestamp="2006-08-12T17:56:50">
+    <oneLight name="OUTPUT1">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT6">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT7">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT8">
+        Ok
+    </oneLight>
+</setLightVector>
+<setSwitchVector device="COR" name="HUB" state="Busy" timestamp="2006-08-12T17:56:51"/>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:51">
+    <oneNumber name="COLD">
+        -273
+    </oneNumber>
+    <oneNumber name="HOT">
+        -273
+    </oneNumber>
+    <oneNumber name="VPELT">
+        0
+    </oneNumber>
+</setNumberVector>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:51"/>
+<setTextVector device="COR" name="DRIVER" state="Ok" timestamp="2006-08-12T17:56:51"/>
+<setTextVector device="COR" name="FIRMWARE" state="Ok" timestamp="2006-08-12T17:56:51"/>
+<setSwitchVector device="COR" name="HARDWARE" state="Ok" timestamp="2006-08-12T17:56:51"/>
+<setSwitchVector device="COR" name="HUB" state="Ok" timestamp="2006-08-12T17:56:51"/>
+<setNumberVector device="COR" name="IP_ADDRESS" state="Ok" timestamp="2006-08-12T17:56:51"/>
+<setNumberVector device="COR" name="POLLING" state="Ok" timestamp="2006-08-12T17:56:51"/>
+<setSwitchVector device="COR" name="SAVE_CFG" state="Ok" timestamp="2006-08-12T17:56:51"/>
+<setNumberVector device="COR" name="UDP_PORT" state="Ok" timestamp="2006-08-12T17:56:51"/>
+<setLightVector device="POTENCIA" name="INPUTS_G1" state="Ok" timestamp="2006-08-12T17:56:52">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT6">
+        Alert
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G2" state="Ok" timestamp="2006-08-12T17:56:52">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT6">
+        Alert
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G3" state="Ok" timestamp="2006-08-12T17:56:52">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT6">
+        Alert
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G4" state="Ok" timestamp="2006-08-12T17:56:52">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT6">
+        Alert
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="ACTUATORS_STATUS" state="Ok" timestamp="2006-08-12T17:56:52">
+    <oneLight name="OUTPUT1">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT6">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT7">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT8">
+        Ok
+    </oneLight>
+</setLightVector>
+<setSwitchVector device="COR" name="HUB" state="Busy" timestamp="2006-08-12T17:56:53"/>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:53">
+    <oneNumber name="COLD">
+        -273
+    </oneNumber>
+    <oneNumber name="HOT">
+        -273
+    </oneNumber>
+    <oneNumber name="VPELT">
+        0
+    </oneNumber>
+</setNumberVector>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:53"/>
+<setTextVector device="COR" name="DRIVER" state="Ok" timestamp="2006-08-12T17:56:53"/>
+<setTextVector device="COR" name="FIRMWARE" state="Ok" timestamp="2006-08-12T17:56:53"/>
+<setSwitchVector device="COR" name="HARDWARE" state="Ok" timestamp="2006-08-12T17:56:53"/>
+<setSwitchVector device="COR" name="HUB" state="Ok" timestamp="2006-08-12T17:56:53"/>
+<setNumberVector device="COR" name="IP_ADDRESS" state="Ok" timestamp="2006-08-12T17:56:53"/>
+<setNumberVector device="COR" name="POLLING" state="Ok" timestamp="2006-08-12T17:56:53"/>
+<setSwitchVector device="COR" name="SAVE_CFG" state="Ok" timestamp="2006-08-12T17:56:53"/>
+<setNumberVector device="COR" name="UDP_PORT" state="Ok" timestamp="2006-08-12T17:56:53"/>
+<setLightVector device="POTENCIA" name="INPUTS_G1" state="Ok" timestamp="2006-08-12T17:56:54">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT6">
+        Alert
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G2" state="Ok" timestamp="2006-08-12T17:56:54">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT6">
+        Alert
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G3" state="Ok" timestamp="2006-08-12T17:56:54">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT6">
+        Alert
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G4" state="Ok" timestamp="2006-08-12T17:56:54">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT6">
+        Alert
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="ACTUATORS_STATUS" state="Ok" timestamp="2006-08-12T17:56:54">
+    <oneLight name="OUTPUT1">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT6">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT7">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT8">
+        Ok
+    </oneLight>
+</setLightVector>
+<setSwitchVector device="COR" name="HUB" state="Busy" timestamp="2006-08-12T17:56:55"/>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:55">
+    <oneNumber name="COLD">
+        -273
+    </oneNumber>
+    <oneNumber name="HOT">
+        -273
+    </oneNumber>
+    <oneNumber name="VPELT">
+        0
+    </oneNumber>
+</setNumberVector>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:55"/>
+<setTextVector device="COR" name="DRIVER" state="Ok" timestamp="2006-08-12T17:56:55"/>
+<setTextVector device="COR" name="FIRMWARE" state="Ok" timestamp="2006-08-12T17:56:55"/>
+<setSwitchVector device="COR" name="HARDWARE" state="Ok" timestamp="2006-08-12T17:56:55"/>
+<setSwitchVector device="COR" name="HUB" state="Ok" timestamp="2006-08-12T17:56:55"/>
+<setNumberVector device="COR" name="IP_ADDRESS" state="Ok" timestamp="2006-08-12T17:56:55"/>
+<setNumberVector device="COR" name="POLLING" state="Ok" timestamp="2006-08-12T17:56:55"/>
+<setSwitchVector device="COR" name="SAVE_CFG" state="Ok" timestamp="2006-08-12T17:56:55"/>
+<setNumberVector device="COR" name="UDP_PORT" state="Ok" timestamp="2006-08-12T17:56:55"/>
+<setLightVector device="POTENCIA" name="INPUTS_G1" state="Ok" timestamp="2006-08-12T17:56:56">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT6">
+        Alert
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G2" state="Ok" timestamp="2006-08-12T17:56:56">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT6">
+        Alert
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G3" state="Ok" timestamp="2006-08-12T17:56:56">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT6">
+        Alert
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G4" state="Ok" timestamp="2006-08-12T17:56:56">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT6">
+        Alert
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="ACTUATORS_STATUS" state="Ok" timestamp="2006-08-12T17:56:56">
+    <oneLight name="OUTPUT1">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT6">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT7">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT8">
+        Ok
+    </oneLight>
+</setLightVector>
+<setSwitchVector device="COR" name="HUB" state="Busy" timestamp="2006-08-12T17:56:57"/>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:57">
+    <oneNumber name="COLD">
+        -273
+    </oneNumber>
+    <oneNumber name="HOT">
+        -273
+    </oneNumber>
+    <oneNumber name="VPELT">
+        0
+    </oneNumber>
+</setNumberVector>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:57"/>
+<setTextVector device="COR" name="DRIVER" state="Ok" timestamp="2006-08-12T17:56:57"/>
+<setTextVector device="COR" name="FIRMWARE" state="Ok" timestamp="2006-08-12T17:56:57"/>
+<setSwitchVector device="COR" name="HARDWARE" state="Ok" timestamp="2006-08-12T17:56:57"/>
+<setSwitchVector device="COR" name="HUB" state="Ok" timestamp="2006-08-12T17:56:57"/>
+<setNumberVector device="COR" name="IP_ADDRESS" state="Ok" timestamp="2006-08-12T17:56:57"/>
+<setNumberVector device="COR" name="POLLING" state="Ok" timestamp="2006-08-12T17:56:57"/>
+<setSwitchVector device="COR" name="SAVE_CFG" state="Ok" timestamp="2006-08-12T17:56:57"/>
+<setNumberVector device="COR" name="UDP_PORT" state="Ok" timestamp="2006-08-12T17:56:57"/>
+<setLightVector device="POTENCIA" name="INPUTS_G1" state="Ok" timestamp="2006-08-12T17:56:58">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT6">
+        Alert
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G2" state="Ok" timestamp="2006-08-12T17:56:58">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT6">
+        Alert
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G3" state="Ok" timestamp="2006-08-12T17:56:58">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT6">
+        Alert
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="INPUTS_G4" state="Ok" timestamp="2006-08-12T17:56:58">
+    <oneLight name="INPUT1">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT2">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT3">
+        Alert
+    </oneLight>
+    <oneLight name="INPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="INPUT6">
+        Alert
+    </oneLight>
+</setLightVector>
+<setLightVector device="POTENCIA" name="ACTUATORS_STATUS" state="Ok" timestamp="2006-08-12T17:56:58">
+    <oneLight name="OUTPUT1">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT2">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT3">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT4">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT5">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT6">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT7">
+        Ok
+    </oneLight>
+    <oneLight name="OUTPUT8">
+        Ok
+    </oneLight>
+</setLightVector>
+<setSwitchVector device="COR" name="HUB" state="Busy" timestamp="2006-08-12T17:56:59"/>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:59">
+    <oneNumber name="COLD">
+        -273
+    </oneNumber>
+    <oneNumber name="HOT">
+        -273
+    </oneNumber>
+    <oneNumber name="VPELT">
+        0
+    </oneNumber>
+</setNumberVector>
+<setNumberVector device="COR" name="CCD_TEMP" state="Ok" timestamp="2006-08-12T17:56:59"/>
+<setTextVector device="COR" name="DRIVER" state="Ok" timestamp="2006-08-12T17:56:59"/>
+<setTextVector device="COR" name="FIRMWARE" state="Ok" timestamp="2006-08-12T17:56:59"/>
+<setSwitchVector device="COR" name="HARDWARE" state="Ok" timestamp="2006-08-12T17:56:59"/>
+<setSwitchVector device="COR" name="HUB" state="Ok" timestamp="2006-08-12T17:56:59"/>
+<setNumberVector device="COR" name="IP_ADDRESS" state="Ok" timestamp="2006-08-12T17:56:59"/>
+<setNumberVector device="COR" name="POLLING" state="Ok" timestamp="2006-08-12T17:56:59"/>
+<setSwitchVector device="COR" name="SAVE_CFG" state="Ok" timestamp="2006-08-12T17:56:59"/>
+<setNumberVector device="COR" name="UDP_PORT" state="Ok" timestamp="2006-08-12T17:56:59"/>
+]0;astrorafael@andromeda: ~/Desktop/indiscriptastrorafael@andromeda:~/Desktop/indiscript$ 

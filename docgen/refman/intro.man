@@ -1,0 +1,93 @@
+((
+$Date$
+$Revision$
+$Author$
+$HeadURL$
+
+2008 By Rafael Gonzalez Fuentetaja
+This file is placed in the public domain. NO WARRANTY.
+))
+\ ######################
+\ *! intro
+\ *R @node{Introduction}
+\ *T Introduction
+\ ######################
+
+
+\ *************
+\ *S Motivation
+\ *************
+
+\ *P The reference manual is above all, a glossary,  a comprenhensive 
+\ ** reference of all Forth words that make up *\f{INDIScript}. 
+\ ** It also contains design notes and list almost each and every 
+\ ** word that makes up the system.
+
+\ ***********
+\ *S Audience
+\ ***********
+
+\ *P This manual is aimed at mainteinance programmers who wish to refactor 
+\ ** and expand *\f{INIDScript} with new packages and mechanisms to be used 
+\ ** by application scripts and graphical user interfaces.
+\ ** It is definitively *\b{not} a user's manual on how to write
+\ ** scripts, nor a Forth or INDI primer. It is assumed that the reader has
+\ ** enough background on these subjects.
+\ *R @xref{Introduction,,Reference documents}.
+
+\ *R @float Figure,fig-refman
+\ *R @center @image{Reference_Manual,,8cm,Reference Manual,.png}
+\ *R @caption{Reference Manual audience.}
+\ *R @end float
+
+
+\ **********************
+\ *S Reference documents
+\ **********************
+
+\ *P INDI and FORTH material.
+\ *( 1
+\ *B 
+\ *R @uref{http://www.clearskyinstitute.com/INDI/INDI.pdf, INDI: Instrument-Neutral Distributed Interface v1.7}. 
+\ *R The Reference specification, owned and maintained by 
+\ *R  @uref{http://www.clearskyinstitute.com/,The ClearSky Institute}
+
+\ *B 
+\ *R @uref{http://indi.sourceforge.net,The INDI SourceForge Project} is
+\ *R the official site for everything else but the above specification.
+
+\ *B
+\ *R @anchor{VFX Forth for Linux User Manual} @cite{VFX Forth for Linux User Manual}
+\ *R as the definitive reference for maintaining and expanding NTOScript. 
+\ *R The evaluation license for Linux is free. 
+\ *R Visit @uref{http://www.mpe.com,MPE Website} for details.
+
+\ *B 
+\ *R @anchor{StephenPelc}
+\ *R @uref{http://www.mpeltd.demon.co.uk/arena/ProgramForth.pdf,Programming Forth}, 
+\ *R by Stephen Pelc. A modern FORTH tutorial based on VFX Forth. 
+
+\ *B
+\ *R @uref{http://www.forth.com/starting-forth, Starting Forth (on-line ed.)} 
+\ *R at @uref{http://www.forth.com, Forth Inc.'s website}. 
+\ *R For some, the best introductory book on Forth ever written.
+
+\ *B
+\ *R Another classical reference is 
+\ *R @cite{Forth Programmer's Handbook} by E. K. Conklin and E.D. Rather,
+\ *R distributed with the Swift Forth free evaluation licenses, also
+\ *R at @uref{http://www.forth.com, Forth Inc.'s website}. 
+
+\ *B 
+\ *R @uref{http://ficl.sourceforge.net/pdf/Forth_Primer.pdf, And so Forth}, 
+\ *R by Hans Bezemer.
+
+\ *B
+\ *R @uref{http://www.disc.ua.es/~gil/forth.pdf,Introduccion a Forth (Spanish)}
+\ *R by Javier Gil Chica.
+\ *)
+
+
+\ ======
+\ *> ###
+\ ======

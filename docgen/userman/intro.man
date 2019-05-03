@@ -1,0 +1,94 @@
+((
+$Date$
+$Revision$
+$Author$
+$HeadURL$
+
+2008 By Rafael Gonzalez Fuentetaja
+This file is placed in the public domain. NO WARRANTY.
+))
+\ ######################
+\ *! intro
+\ *R @node{Introduction}
+\ *T Introduction
+\ ######################
+
+
+\ ***********
+\ *S Audience
+\ ***********
+
+\ *P This manual is aimed at application programmers who wish to write
+\ ** INDI control scripts. A more advance profile would also include those 
+\ ** programmers that wish to write GUI front-ends using the INDI protocol
+\ ** through *\f{NTOScript}.
+
+\ *P Both control scripts and *\f{NTOScript} itself are written in the *\fo{FORTH} 
+\ ** language. This manual is *\b{not} a FORTH Primer, 
+\ ** although some rationale behind 
+\ ** using FORTH is given. If you are new to FORTH, 
+\ ** skim first through this manual and then refer to
+\ ** the appropiate material given in 
+\ *R @ref{Introduction,,Reference documents}.
+
+\ *P This manual does not analyize in detail the *\f{INDI} protocol. 
+\ ** For a complete reference of *\f{INDI}, please refer to the proper link in
+\ *R @ref{Introduction,,Reference documents}.
+
+\ *R @float Figure,fig-refman
+\ *R @center @image{User_Manual,,8cm,User Manual,.png}
+\ *R @caption{User Manual audience.}
+\ *R @end float
+
+
+\ **********************
+\ *S Reference documents
+\ **********************
+
+\ *P INDI and FORTH material.
+\ *( 1
+\ *B 
+\ *R @uref{http://www.clearskyinstitute.com/INDI/INDI.pdf, INDI: Instrument-Neutral Distributed Interface v1.7}. 
+\ *R The Reference specification, owned and maintained by 
+\ *R  @uref{http://www.clearskyinstitute.com/,The ClearSky Institute}
+
+\ *B 
+\ *R @anchor{INDIWebsite}
+\ *R @uref{http://indi.sourceforge.net,The INDI SourceForge Project} is
+\ *R the official site for everything else but the above specification.
+
+\ *B
+\ *R @anchor{VFX Forth for Linux User Manual} @cite{VFX Forth for Linux User Manual}
+\ *R as the definitive reference for maintaining and expanding NTOScript. 
+\ *R The evaluation license for Linux is free. 
+\ *R Visit @uref{http://www.mpe.com,MPE Website} for details.
+
+\ *B 
+\ *R @anchor{StephenPelc}
+\ *R @uref{http://www.mpeltd.demon.co.uk/arena/ProgramForth.pdf,Programming Forth}, 
+\ *R by Stephen Pelc. A modern FORTH tutorial based on VFX Forth. 
+
+\ *B
+\ *R @uref{http://www.forth.com/starting-forth, Starting Forth (on-line ed.)} 
+\ *R at @uref{http://www.forth.com, Forth Inc.'s website}. 
+\ *R For some, the best introductory book on FORTH ever written.
+
+\ *B
+\ *R Another classical reference is 
+\ *R @cite{Forth Programmer's Handbook} by E. K. Conklin and E.D. Rather,
+\ *R distributed with the SwiftForth free evaluation licenses, also
+\ *R at @uref{http://www.forth.com, Forth Inc.'s website}. 
+
+\ *B 
+\ *R @uref{http://ficl.sourceforge.net/pdf/Forth_Primer.pdf, And so Forth}, 
+\ *R by Hans Bezemer.
+
+\ *B
+\ *R @uref{http://www.disc.ua.es/~gil/forth.pdf,Introduccion a Forth (Spanish)}
+\ *R by Javier Gil Chica.
+\ *)
+
+
+\ ======
+\ *> ###
+\ ======

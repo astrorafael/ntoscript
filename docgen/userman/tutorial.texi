@@ -1,0 +1,1839 @@
+@c $Date$
+@c $Revision$
+@c $Author$
+@c $HeadURL$
+
+@node INDI
+@chapter INDI in a nutshell
+
+
+@c ----------------------------------------------------------------------------
+@c ----------------------------------------------------------------------------
+@c ----------------------------------------------------------------------------
+
+INDI stands for Instrument Neutral Distributed Interface. 
+This specification was first released by Elwood Charles Downey of the
+ClearSky Institute, on 2003. It is copyrighted and maintained by him.
+The current protocol version, as the date of writting this manual, is 1.7.
+
+Unlike other methods to control astronomical devices 
+@footnote{Most notably ASCOM, tied to Windows technology}, 
+this one is based on neutral technology: XML messages. 
+Other features of INDI are the use of a client/server paradigm 
+and a stateless protocol.
+
+In practice, INDI clients do not communicate directly with the devices. 
+Instead, they contact an @emph{indiserver}, a mediator between clients 
+and devices that can offer additional services such as message routing and
+authentication. 
+
+@c ----------------------------------------------------------------------------
+@c ----------------------------------------------------------------------------
+
+@section INDI properties
+
+In the INDI world, each device present to the client software a series 
+of visible @emph{Properties}. Properties are really @emph{Property vectors},
+arrays  of one or more components or @emph{Property items}. 
+This is a very convenient feature. 
+
+Imagine a telescope @code{Mount} device whose property 
+@code{EQUATORIAL_COORD} describes the @code{RA} and @code{DEC} positions.
+The client software fills each component separately. Once the individual 
+@code{EQUATORIAL_COORD} components have been set, you can send the whole 
+property vector to the device, which will start slewing to that position.
+
+@cartouche 
+@example
+00:50:00 R.A.   property item   Mount EQUATORIAL_COORD RA  set
+39:46:00 DEC.   property item   Mount EQUATORIAL_COORD DEC set
+                property vector Mount EQUATORIAL_COORD send
+@end example 
+@end cartouche
+
+The INDI specification describes a series of XML messages and rules,
+to communicate property values from client to server and vice-versa.
+In the example above, the typed commands will cause the following
+message to be sent from the client software to the @code{Mount} device:
+
+@sp 1
+@example
+@group
+  <newNumberVector name='EQUATORIAL_COORD' device='Mount'>
+    <oneNumber name='RA'>1.2500000e1 </oneNumber>
+    <oneNumber name='DEC'>3.9766666e1 </oneNumber>
+  </newNumberVector>
+@end group
+@end example 
+@vskip 6pt
+
+The device might respond right away with something like this:
+
+@sp 1
+@example
+@group
+  <setNumberVector device="Mount" name="EQUATORIAL_COORD" state="Busy" 
+   timeout="36" timestamp="2008-03-30T09:14:54" 
+   message="Slewing to RA 12:30:00.0 Dec  39:46:00">
+     <oneNumber name="RA">
+        12.50000023400770
+     </oneNumber>
+     <oneNumber name="DEC">
+        39.7666659139457
+     </oneNumber>
+  </setNumberVector>
+@end group
+@end example
+
+And when the slew is complete, the device might send a new message like:
+
+@sp 1
+@example
+@group
+  <setNumberVector device="Mount" name="EQUATORIAL_COORD" state="Ok" 
+   timeout="36" timestamp="2008-03-30T09:14:54" message="Now tracking">
+     <oneNumber name="RA">
+        12.50000023400770
+     </oneNumber>
+     <oneNumber name="DEC">
+        39.76666591394570
+     </oneNumber>
+  </setNumberVector>
+@end group
+@end example
+
+All communication is asynchronous. The client software send new values
+for the property vectors and may or may not wait for answers. 
+This is particulary true for GUI clients, which do not wait for
+responses. Instead, they can act upon INDI messages as soon as they arrive.
+
+@c ----------------------------------------------------------------------------
+@c ----------------------------------------------------------------------------
+
+@section INDI property states
+
+In case you have not noticed from the XML messages above, 
+property vectors as a whole have a @emph{state}, which gives us a hint 
+on what's going on in the device.
+The device can be in either one of the following states: 
+@code{Idle}, @code{Ok}, @code{Busy} or @code{Alert}. 
+
+In the example above, the property  @code{EQUATORIAL_COORD} 
+goes into a  @code{Busy} state until the @code{Mount} device reaches the
+target equatorial position. At that time, the  @code{EQUATORIAL_COORD} gets
+back to the @code{Ok} state. At any time, a property can enter into the the
+@code{Alert} state. For instance, the @code{Mount} above hit one microswitch 
+that controls the slew limit.
+
+@float Figure,fig-xephem
+@center @image{indi_gui,,18cm,INDI GUI,.png}
+@caption{XEphem's INDI Control panel.}      
+@end float
+
+
+GUIs can visually represent state as colors, as seen on @ref{fig-xephem}. 
+The suggested colors are gray
+for @code{Idle}, green for @code{Ok}, yellow for @code{Busy} and red for
+@code{Alarm}.
+
+@c ----------------------------------------------------------------------------
+@c ----------------------------------------------------------------------------
+
+@section Property vector types
+
+Under INDI, property vectors are classified as:
+@enumerate
+@item 
+@emph{Text} property vectors. Text property vectors hold text items like
+comments or free text you want to enter. Property @emph{Target} on 
+@ref{fig-xephem} show a single text entry box for its only component
+@emph{edb format line}.
+
+@item 
+@emph{Number} property vectors. These ones hold arrays of numbers. These
+property vectors have other features such as the min and max allowed values or
+the step increment.  Property @emph{Equatorial J2000} on 
+@ref{fig-xephem} show this property vector with two components, 
+@emph{RA} and @emph{Dec} with their respective entry boxes.
+
+@item 
+@emph{Switch} property vectors. These represent things that can be switched
+on or off, options or trigger actions. Property @emph{Main Power}
+in @ref{fig-xephem} shosw the state of the AC mains power supply and how can 
+be turned on or off.
+
+@item 
+@emph{Light} property vectors. Light vectors represent arrays or read-only
+lights that can signal certain events, like the  @emph{Security Sensors} 
+property on @ref{fig-xephem}. Light values are @code{Idle}, @code{Ok}, 
+@code{Busy} or @code{Alert}. 
+
+@item 
+@emph{BLOB} property vectors. These represent binary data, such as images, 
+that cannot be handled using text vectors. 
+They are usually sent from the device to the client software, although INDI 
+allows sending BLOBs to the device for exotic purposes like updating a 
+device's firmware. Not all clients can handle BLOBs, so BLOB reception is 
+disabled by default and the client software must explicitely enable reception.
+
+@end enumerate
+
+@c ----------------------------------------------------------------------------
+@c ----------------------------------------------------------------------------
+
+@section Discovering INDI devices and properties
+
+Other amateur astronomy automation technologies define a common but minimum
+set of features, grouped in interfaces, that all astronomical devices must
+abide. Under INDI, each device may have its own personality and announces 
+itself to the rest of the world. 
+
+This dynamic description and run-time discovery is mostly convenient for GUIs, 
+which can avoid hard-coding the interface elements for a certain device,
+making them in fact @strong{universal and adaptive} controllers. 
+
+XEphem's INDI Control Panel in @ref{fig-xephem} is just an example of 
+an universal, adaptive INDI GUI. Of course, nothing prevents a developer 
+to write a custom, hard-coded GUI for an specific device, knowing beforehand 
+the amount and type of property vectors this particular device exhibits.
+
+Dynamic discovery is less an advantage for scripting, since the application 
+programmer @strong{must} have ``a priori'' knowledge of devices, 
+properties @strong{and its behaviour} to write the script.
+
+Some effort on standarizing properties has been made. 
+@xref{INDIWebsite,,INDI reference material}
+
+@c ----------------------------------------------------------------------------
+@c ----------------------------------------------------------------------------
+@c ----------------------------------------------------------------------------
+
+
+@node Tutorial
+@chapter @sc{NTOScript} Tutorial
+
+@c ----------------------------------------------------------------------------
+@c ----------------------------------------------------------------------------
+@c ----------------------------------------------------------------------------
+
+@section Why FORTH ?
+
+FORTH is an old language, certainly older that the popular mainstream 
+languages  available nowadays (Java, Python, Perl, Tcl, Visual Basic, Ruby, 
+C++,etc). 
+
+It enjoyed a golden age around the 1980 decade. 
+Now it can be found in specific markets like embedded systems, 
+booting workstations, etc. It is definitely @strong{not} mainstream anymore. 
+Ironically, the first application field for FORTH was telescope control, 
+(@cite{The FORTH Program for Spectral Line Observing, C. H. Moore and E. Rather, IEEE Proceedings, Vol 61, No. 9, September 1973}).
+
+Excelent tutorials on FORTH are available on 
+@ref{Introduction,,Reference documents}. The one by @ref{StephenPelc,,Stephen Pelc} even addresses the controversial aspects of FORTH in chapter 
+@cite{Adopting and managing FORTH}.
+
+So, what's the purpose of developing a control environment in FORTH ? 
+
+@itemize
+
+@item Above all, a matter of personal preference. 
+@strong{FORTH is fun to program}.
+
+@item  Like other well known scripting languages, 
+@strong{you do not need any IDE}, just an editor and a console.
+
+@item Like other well known scripting languages, 
+@strong{FORTH is dynamically typed}.
+No need to specify types, nor function or procedure prototypes.
+
+@item Like other well known scripting languages, 
+@strong{FORTH is interpreted}.
+This allows you a very quick edit/test turnaround cycle.
+
+@item  Like other well known systems languages, like Java or C/C++, 
+@strong{FORTH is also compiled}. 
+Other scripting languages also compile to an intermediate code 
+to improve performance. FORTH typically outperforms these scripting languages. 
+Modern FORTH compilers like VFX produce optimized machine code that can 
+compare with C performance. 
+
+I have been trying telescope control with a couple of scripting languages.
+Yes, they are powerful, easy to program, full of libraries and even you can 
+write GUIs with them. But after developping a good amount of software, 
+guess what ... it is slow ! There are usually workarounds like writting in C
+the critical parts, loosing your interacivity. Another one is 
+using external utilities that ``compile'' your software and produce a 
+bloated version. I also prefer efficiency in code space.
+
+@item @strong{FORTH has a neat syntax: only words separated by spaces}.
+This results in a much clearer syntax that is very readable, if properly 
+designed. No parenthesis nor dots, no long names if possible.
+The example in @ref{Tutorial,,INDI in a nutshell} is written in 
+@sc{NTOScript}.
+
+@item @strong{Modern FORTHs can access external, shared libaries} if needed. 
+I certainy appreciate not to reinvent the wheel whenever possible.
+VFX is particulary friendly in this aspect.
+
+@end itemize
+
+In summary, @emph{the only language I have found that is both interpreted and 
+compiled, offering at the same time a quick edit/test cycle, superb 
+performance, easy interfacing capabilities and a neat syntax is FORTH.}
+
+
+@c ----------------------------------------------------------------------------
+@c ----------------------------------------------------------------------------
+@c ----------------------------------------------------------------------------
+
+@section Invoking @sc{NTOScript}
+
+If properly installed, @sc{NTOScript} should be invoked by just typing:
+@cartouche 
+@example
+ntoscript
+@end example
+@end cartouche
+
+Exit from  @sc{NTOScript} by typing:
+@cartouche 
+@example
+bye
+@end example
+@end cartouche
+
+@subsubheading Executing backgorund jobs
+
+If you wan to execute a given script as a background job to cron or similar 
+facility, @sc{NTOScript} should be invoked as:
+@cartouche 
+@example
+ntoscript include /<path>/<to>/<your>/<script>
+@end example
+@end cartouche
+
+@section Script programming cookbook
+
+This section introduces you to the basics of programming in @sc{NTOScript}.
+By now, you should have clear that a FORTH program consists of a series of
+@emph{words} sperated by spaces and each word have a role to play in the 
+program. We use an informal, cookbook approach that shows many examples 
+with prototype phrases. 
+
+All examples given in this cookbook are real examples you can play 
+with. They can can be found at @file{/usr/local/ntoscript/scripts}.
+The supporting software is the excellent @code{XEphem} sky-charting software.
+Download the whole tarball from @uref{http://www.clearskyinstitute.com/xephem/,
+the Clear Sky Institute website}, compile both xephem and the @file{tools/indi}
+directory @footnote{Unfortunately, the supplied library file @file{indidrivermain.c} formats 
+floating point numbers with too many decimal digits and breaks the FORTH input
+conversion routine.  @code{C}'s 'double' floating point precision is only 16 digits. All occurences of %.20g in this file should be replaced by %.16g.}.
+
+Skim through this cookbook to get a first impression. Then, take 
+some time getting started to FORTH (@pxref{Introduction,,Reference documents}).
+A second reading should make things more self-evident and you will be ready
+to have a look at the reference section (@ref{Properties database} through 
+@ref{Sexagesimal Numbers}).
+
+The first use case to be developed is a simple CCD imaging session of 
+M31 galaxy through various filters and CCD camera, attached to an OTA 
+supported by a robotic equatorial mount. 
+The OTA itself includes a focuser and a filter wheel. A weather station 
+monitors humidity and wind speed. 
+
+Example code will be shown in rounded rectangles or ``cartouches'' with one
+or several discussion topics after each example. 
+
+@subsubheading Starting up the server
+
+After having compiled @code{xephem}, go to the @file{GUI/xephem/tools/indi}
+directory and type  @code{make}. The following driver are compiled:
+@itemize
+@item @file{indiserver}. Server program managing drivers below.
+@item @file{cam}. A CCD camera simulator.
+@item @file{tmount}. A Telescope mount simulator.
+@item @file{ota}. The Optical Tube Assembly simulator.
+@item @file{wx}. A Weather station simulator.
+@item @file{security}. A security system simulator (we won't use it).
+@end itemize
+
+Then, type in a separate terminal window:
+@cartouche 
+@example
+./indiserver -v ./tmount ./cam ./ota ./wx 
+@end example 
+@end cartouche
+
+to start the remote INDI server.
+
+@c ----------------------------------------------------------------------------
+@c ----------------------------------------------------------------------------
+
+@subsection Core package programming
+
+The @emph{Core package} is the part of @sc{NTOScript} that deals with 
+basic INDI device control.
+
+@c ----------------------------------------------------------------------------
+
+@subsubsection Connection and device discovery
+
+@subsubheading Example 1
+
+As said in @ref{Tutorial,,INDI in a nutshell}, we need first to connect to a
+remote INDI server to control INDI devices.
+
+@anchor{Example 1}
+@cartouche 
+@example
+IndiServer: indiserver localhost 7624
+indiserver connect
+@end example 
+@end cartouche
+
+@subsubheading Rationale: Connection to an INDI server
+
+The above phrases declare and creates an object named @code{indiserver} 
+that will connectto a given host and TCP port (@code{localhost} and 
+@code{7624} in this case). After this object has been created, 
+we issue the @code{connect} command on it.
+
+If we have not started our @file{indiserver} process in another window, this
+is what happens:
+@example
+@group
+Err# 111 Connection refused
+ -> connect
+@end group
+@end example
+
+By the way, there is also the possibility for you to disconnect from the remote
+@file{indiserver} process by issuing:
+@example
+indiserver disconnect
+@end example 
+
+
+@subsubheading Example 2
+
+After the connection is done, the next thing to do is to discover remote 
+devices. We do that with the following phrases:
+
+@anchor{Example 2}
+@cartouche 
+@example
+indiserver properties get
+2 seconds waiting
+@end example 
+@end cartouche  
+
+@subsubheading Rationale
+
+For interactive use, the final wait is not necessary, because the discovery 
+process is fast compared to our human reaction time. However, it is necessary
+for scripts, since the next thing to do will be to get and set property items
+which may not be known to @sc{NTOScript} by the time your script execute 
+them.
+
+@subsubheading Example 3
+
+For interactive console use, you may print what devices and properties 
+we have discovered by issuing:
+
+@anchor{Example 3}
+@cartouche 
+@example
+indiserver print
+@end example 
+@end cartouche  
+and, depending on what devices we have started on the remote side, we might get
+something like this:
+
+@smalldisplay
+@group===================================================================
+Device Weather
+  
+Property WX (Ok,ro,60 ) [Weather Station] []
+  Pres = 9.9988358e2 {+0 +0 +0 %6.1f} [Pressure, hPa]
+  Temp = 9.9773267 {+0 +0 +0 %6.1f} [Air temp, C]
+  DewP = 6.0658814 {+0 +0 +0 %6.1f} [Dew point, C]
+  WDir = 9.2274145e1 {+0 +0 +0 %6.1f} [Wind dir, EofN]
+  WSpd = 2.3858043e1 {+0 +0 +0 %6.1f} [Wind speed, kph]
+  
+Property WXAlert (Idle,rw,60 ) [Weather alert settings] []
+  MaxDewP = -3 {-1000 +0 +1 %6.1f} [Dew limit from temp]
+  MaxWndS = +25 {+0 +1000 +1 %6.1f} [Wind speed limit]
+
+
+===================================================================
+Device Mount
+  
+Property Power (Idle,rw,60 ) {OneOfMany} [Main Power] []
+  Off =  On [Off]
+  On =  Off [On]
+  
+Property EQUATORIAL_COORD (Idle,rw,36 ) [Equatorial J2000] []
+  RA = 3.8638666e-3 {+0 +24 +0 %12.8m} [RA  H:M:S]
+  DEC = +0 {-90 +90 +0 %10.6m} [Dec D:M:S]
+  
+Property GEOGRAPHIC_COORD (Idle,rw,60 ) [Location] []
+  LAT = +40 {-90 +90 +0 %10.6m} [Lat  D:M:S +N]
+  LONG = -90 {-180 +180 +0 %12.8m} [Long D:M:S +E]
+  
+Property GOTOedb (Idle,rw,36 ) [Target] []
+  edb = <empty> [edb format line]
+
+
+===================================================================
+Device OTA
+  
+Property Focuser (Ok,rw,60 ) [Focuser] []
+  Focus = +100 {-500 +500 +10 %5.2f} [Focus,  µm]
+  
+Property Filter (Ok,rw,60 ) {OneOfMany} [Filter] []
+  B =  Off [Blue]
+  V =  Off [Visible]
+  R =  On [Red]
+  I =  Off [IR]
+  H =  Off [HII]
+  C =  Off [Clear]
+
+
+===================================================================
+Device CCDCam
+  
+Property ExpValues (Idle,rw,60 ) [Exposure] []
+  ExpTime = +10 {+0 +600 +5 %.1f} [Duration, secs]
+  
+Property TempNow (Ok,ro,60 ) [TempNow] []
+  Temp = +0 {+0 +0 +0 %.1f} [Temp now, C]
+  
+Property SetTemp (Idle,wo,60 ) [SetTemp] []
+  Target = +0 {+0 +0 +0 %.1f} [Target temp, C]
+  
+Property Binning (Idle,rw,60 ) {OneOfMany} [Binning] []
+  1:1 =  On [1:1]
+  2:1 =  Off [2:1]
+  3:1 =  Off [3:1]
+  4:1 =  Off [4:1]
+  
+Property Pixels (Idle,ro,60 ) [Images] []
+  Img = <empty> [Science frame]
+  
+Property Code (Idle,wo,60 ) [Code] []
+  Microcode = <empty> [Microcode]
+
+ ok
+@end group
+@end smalldisplay
+
+@subsubheading Rationale
+
+If your're already familiar with the INDI specification, 
+you should recoignize all the properties and its attributes like name, group, 
+label, timeout, etc.
+
+@c ----------------------------------------------------------------------------
+
+@subsubheading Advanced: Connection to several INDI servers
+
+It is possible to connect to several INDI servers simultaneously by creating
+the necessary objects with  @code{IndiServer:}  @sc{NTOScript} will handle
+all incoming messages and create a database of properties for each server.
+
+Regarding output messages, it is not necessary to explicit 
+which remote server the messages are sent to.
+@sc{NTOScript} handles the notion of @code{TheCurrentServer}.
+It is set to the last @code{indiserver} object you issued a @code{connect}.
+
+When maintanining several connections to remote servers, you should
+manually switch between one server and another when sending outgoing messages.
+
+@cartouche 
+@example
+IndiServer: indiserver1 192.168.0.2 7624
+indiserver1 connect
+
+IndiServer: indiserver2 192.168.0.3 7624
+indiserver2 connect
+
+indiserver1 to TheCurrentServer
+indiserver1 properties get
+2 seconds waiting
+
+indiserver2 to TheCurrentServer
+indiserver2 properties get
+2 seconds waiting
+
+@end example 
+@end cartouche
+
+
+@subsubsection Handling properties
+
+@subsubheading Example 4
+
+Once we have connected to a remote @file{indiserver} and performed the device
+discovery, its time to control our devices. 
+We will start by telling the telescope mount our geographical position:
+
+@anchor{Example 4}
+@cartouche 
+@example
+   40:25:00 LAT.   property item   Mount GEOGRAPHIC_COORD LAT  set
+  -03:42:00 LONG.  property item   Mount GEOGRAPHIC_COORD LONG set
+                   property vector Mount GEOGRAPHIC_COORD send&wait
+@end example 
+@end cartouche
+
+In the @ref{Example 4}, we are setting the individual property items
+@code{LAT} and @code{LONG} that belong to property vector named
+@code{GEOGRAPHIC_COORD} in device named @code{Mount}.
+
+@subsubheading Rationale: Properties
+
+As we have said in 
+@ref{Tutorial,,INDI in nutshell}, the way to control an INDI device is to get
+and set values for @emph{property vectors}. Since a given 
+@emph{property vector} is composed of one or more @emph{property items},
+we set values item by item. We @strong{must} know beforehand:
+@enumerate
+@item The @emph{device} name.
+@item The @emph{property vector} name.
+@item The @emph{property item} name.
+@item The @emph{property vector} type, which determines which value types to 
+read and write in the property items.
+@item The @emph{property item} physical units in case of @emph{number vectors}.
+@end enumerate 
+
+Setting individual values is not enough, we must send the whole vector to the
+server for our action to be effective.
+
+
+In @ref{Example 4} above, we can see the basic pattern:
+@itemize
+@item @code{property item} scans three words after it: a device name, 
+a property vector name and a property item name. Names are case sensitive.
+It returns an @code{INDI-ITEM} object.
+@item  @code{property vector} scans two words after it: the device name
+and property vector name. It returns a  @code{PROPERTY-VECTOR} object.
+@item words @code{set} and @code{send&wait} are methods applied to the
+returned object on the stack.
+@item parameters for the methods are placed at the beginning of the phrase.
+@end itemize
+
+@subsubheading Synchronous execution
+
+The INDI protocol is asynchronous. There are no request/reply pattern
+@emph{per se}. This is fine for GUIs. However, scripting is easier if we
+can make sure that we proceed one step at a time, i.e., turning on the 
+mount and set the coodinates once we know that the mount has been turned on.
+And this is where the property state plays a role.
+
+In @sc{NTOScript}, there are different posibilities:
+@itemize
+
+@item Use @code{send} to send the message right away and continue with script
+execution. Fine for interactive use, typing commands by hand.
+
+@item Use @code{send&wait} to send the message and wait for a non-busy answer
+( @code{Ok}, @code{Idle} or @code{Alert}).
+After a timeout value has expired (property dependant), if the property state
+is still @code{Busy}, then throw an exception.
+
+@item Use @code{send&ok} to send the message and wait for an  @code{Ok} answer.
+After a timeout value has expired (property dependant), if the property state
+is not @code{Ok}, then throw an exception.
+
+@item Use @code{send&idle} to send the message and wait for an @code{Idle} 
+answer. After a timeout value has expired (property dependant), 
+if the property state is not @code{Idle}, then throw an exception. 
+This is useful when switching off devices, as we shall see in @ref{Example 5}.
+
+@end itemize 
+ 
+@subsubheading Examples 5 and 6
+
+Now, its time to power on the mount. This is necessary for the mount to start
+tracking at the current position.
+
+@anchor{Example 5}
+@cartouche 
+@example
+True property item   Mount Power On set
+     property vector Mount Power send&ok
+@end example 
+@end cartouche
+
+We will also set the target coordinates (M31 galaxy). When set, 
+the telescope will start slewing and will take a while to do so.
+
+@anchor{Example 6}
+@cartouche 
+@example
+   00:42:44 R.A.  property item   Mount EQUATORIAL_COORD RA  set
+  +41:16:08 DEC.  property item   Mount EQUATORIAL_COORD DEC set
+                  property vector Mount EQUATORIAL_COORD send&ok
+@end example 
+@end cartouche
+
+In the sample drivers, sending an new  EQUATORIAL_COORD property will abort
+slewing if the property was @code{Busy}, but this is device dependant.
+
+
+@subsubheading Rationale: Number Property vectors
+
+When it comes to scripting, @emph{Number property vectors} deserve an special 
+note. The INDI specification is ambiguous about what data type to use for 
+numbers (integers or floating point? what ranges?). 
+@strong{We have chosen the `64-bit ``double floating point'' data type for Number property vectors} because:
+
+@itemize
+@item It can represent accurately integers.
+@item It can obviously represent real numbers.
+@footnote{although not always accurately, as you probably know}.
+@item It has the widest dynamic range for both and enough precision
+(16 digits mantissa).
+@end itemize
+
+This has its consequences:
+
+@enumerate
+@item Number literals used for number propety vectors in scripts 
+@strong{must} have a dot @code{.}, even for integers values.
+@item You can use integers if you convert them to floating point before
+assigning to a property item. The best way to do it is using or writting
+a custom unit. @xref{Tutorial,,Adding readability} 
+@end enumerate
+
+@subsubheading Advanced: Property Timeout
+
+As per the INDI specification, there is a timeout attribute attached to each 
+property. It is used in @code{send&wait}, @code{send&ok} and @code{send&idle}.
+@sc{NTOScript} provides a default timeout in (integer) seconds when this 
+attribute is not sent by the remote device by using @code{Property-timeout}.
+You can customize this value to your taste. However a value set too low may
+raise ``property in Busy state'' exceptions later on.
+
+@example
+@group
+Property-timeout . 
+10 to Property-timeout          \ 10 seconds as new default property timeout
+@end group
+@end example
+
+@subsubsection Improving our skills
+
+@subsubheading Example 7
+
+Once we are on the target celestial object, its time to fine focus the camera. 
+We will command relative movements to the focuser in a number of steps as 
+suggested by the INDI property item that controls the focuser. 
+
+@anchor{Example 7}
+@cartouche
+@example
+DEFINITION: +Focuser  ( -- )
+      property item   OTA Focuser Focus get
+      property item   OTA Focuser Focus step	
+   f+ property item   OTA Focuser Focus set
+      property vector OTA Focuser send&ok
+END-DEFINITION
+
+
+DEFINITION: -Focuser  ( -- )
+      property item   OTA Focuser Focus get
+      property item   OTA Focuser Focus step
+   f- property item   OTA Focuser Focus set
+      property vector OTA Focuser send&ok
+END-DEFINITION
+@end example
+@end cartouche
+
+Then, type:
+
+@cartouche
+@example
++Focuser  +Focuser  +Focuser  -Focuser
+@end example
+@end cartouche
+
+The @code{step} method returns the sugested stepping value. 
+Method @code{get} gets the current value as returned by the device.
+Words @code{DEFINITION:} and @code{END-DEFINITION} are explained below.
+
+The last line shows our focusing attempt by moving the focuser three times
+forward and one time backwards.
+
+@subsubheading Rationale: Adding readability
+
+FORTH is traditionaly known as a ``write-only'' language. Admittedly, 
+some of the FORTH words' names like @code{:} @code{;} @code{@@} 
+@code{!} @code{2@@} @code{2!} @code{c@@} or @code{c!} 
+look rather intimidating at first. However, this write-only reputaion
+has to do more with ancient practices than with the language itself.
+@xref{StephenPelc,,Stephen Pelc} for a discussion on this issue.
+ 
+I have tried to add substantial syntactic sugar for readability
+purposes, as a way to attract newcomers to @sc{NTOScript}.
+
+If you are familiar to FORTH, you should have no problem to reconize
+@code{definition:}, @code{end-definition}, @code{fetch}, @code{store}, 
+@code{2fetch}, @code{2store}, @code{cfetch} and @code{cstore}
+as being synonyms for words above. 
+
+Also, specifying physical units for @emph{Number vectors} is a good thing
+towards readability. Please, have a look at 
+@ref{Command Line Interface,,Other Physical/Non-physical Units}. 
+If you need something else, you can define it yourself. 
+
+@strong{Specifying angles}
+
+As seen in @ref{Example 6}, we have a convenience notation to specify
+sexagesimal quantities like angles using integer degrees, minutes and seconds 
+(or arcseconds) by using
+@code{DD:MM:SS} plus a conversion word. In case of angles, it can be 
+@code{R.A.}, @code{DEC.},  @code{LONG.},  @code{LAT.}, @code{AZ.} or 
+@code{ALT.}   
+
+Other possible choices for specifying angles (and time) are
+@code{DD:MM}, @code{DD:MM.M} and @code{DD:MM:SS.S}.
+@xref{Sexagesimal Numbers} for more details.
+
+@strong{Specifyng Time seconds}
+
+In the code snippet below, word @code{sec.} is syntactic sugar and does 
+nothing. So no integer literals are allowed, you must include a dot.
+
+@example
+23. sec. property item CCDCam ExpValues ExpTime set
+@end example
+
+@strong{Specifying Lengths}
+
+The code snippet below case demonstrate that you should know both the 
+phyiscal units handled by the device and what conversion is being performed 
+by @code{um.}. Otheriwse, a disaster is assured. 
+
+The glossary says that @code{um.} converts from floating point microns 
+to meters, but the device label shows that it wants numbers directly in 
+microns.
+
+Other units available are @code{cm.} and @code{mm.} which perform similar
+conversions.
+
+@example
+150. um. property item Focuser Focus set @error{}
+@end example
+
+
+@strong{Specifying Integer units}
+
+In the code snippet below, @code{images} converts integer @code{25} to 
+floating point @code{25.0} when setting the number of images to take for 
+the CCD device named @code{AUDINE1}. 
+
+@example
+25 images property item AUDINE1 EXP_LIMITS COUNT set
+@end example
+
+@strong{Specifying Date and Time}
+
+This code snippet shows how to specify a timestamp for busy waiting until 
+November, 11th, 2008 at 15:23:20 UTC time. Again, time is a sexagesimal 
+quantity to be written as @code{HH:MM:SS}, seconds included.
+Time specifier @code{GMT} or @code{LT} @strong{must} be present. 
+dot. Use full month names. Date order is shown in the example.
+
+@example
+ 2008 November 11  15:23:30 GMT at-time
+@end example
+
+Word @code{at-time} blocks the calling task until the specified date and 
+time arrives.
+
+@strong{Specifying delays}
+
+Phrases below blocks the calling task in a busy wait either in milliseconds, 
+seconds or minutes.
+
+@example
+ 100 ms
+  34 seconds waiting
+   5 minutes waiting
+@end example
+
+@subsubheading Rationale: Definitions
+
+If you find yourself repeating over and over again the same set of words,
+it is more convenient to factor them into a definition, 
+@footnote{@sc{NTOScript} definitions are simply FORTH colon definitions.}  
+that is compiled into machine code. 
+Once you know your INDI devices, you will probably be writting reusable, 
+parametrized definitions that you'll use over and over again. 
+You @strong{must} feel comfortable with stack handling to write non-trivial 
+definitions.
+
+@ref{Example 7} creates two words called @code{+Focuser} and @code{-Focuser} 
+that do not consume nor produce any number on the data or floating point 
+stacks, and whose purpose is to advance backwards and forwards the focuser
+in steps described by the @emph{property item}. The definitions above
+use the floating point stack to place two floating point numbers and perform 
+an addition or substraction using @code{f+} or @code{f-}
+
+You can use most of the words covered in this cookbook inside a definition,
+with the notable exception of @code{IndiServer:}. This word is used to define
+a word (@code{indiserver}) and you cannot use it while trying to define 
+another word (@code{myconnect}) at the same time.
+
+@example
+DEFINITION: myconnect ( -- )
+  IndiServer: indiserver localhost 7624 @error{}
+  indiserver connect
+  indiserver properties get
+  2 seconds waiting
+END-DEFINITION
+@end example
+
+Other FORTH @emph{defining words} words that you may encounter such as
+@code{Create} @code{Constant} or  @code{Variable}. They are use as intended 
+@emph{outside} a definition. They can be used inside definitions, but beware: 
+the effect is not what you now expect, for sure !
+
+Once you feel comfortable with FORTH you can expand @sc{NTOScript} with your
+own definitions of any kind with  FORTH's unique capabilities. 
+From now on, most of our examples will be definitions.
+
+We encourage you to write small definition that perform simple and well 
+defined tasks such as @code{+Focuser} and @code{-Focuser} shown above. 
+Also, beware of excessive stack gymnastics.
+
+
+@subsubheading Example 8
+
+We are almost over. Just before taking a photo, we must select the proper
+filter. We will command the filter wheel to setup the filter of our choice.
+
+@anchor{Example 8} 
+@cartouche
+@example
+0 Constant Blue
+1 Constant Visible
+2 Constant Red
+3 Constant IR
+4 Constant HII
+5 Constant Clear
+
+DEFINITION: Filter  ( n1 -- )
+   case
+     Blue    of True property item OTA Filter B set endof
+     Visible of True property item OTA Filter V set endof
+     Red     of True property item OTA Filter B set endof
+     IR      of True property item OTA Filter I set endof
+     HII     of True property item OTA Filter H set endof
+                True property item OTA Filter C set
+   endcase
+   property vector OTA Filter send&ok
+END-DEFINITION
+@end example
+@end cartouche
+
+Then, type
+
+@cartouche
+@example
+Visible Filter
+@end example
+@end cartouche
+
+to move the filter wheel and use the V filter.
+
+
+@subsubheading Rationale: Designing phrases
+
+Much of the FORTH abilities to counteract its reputation of ``write-only code''
+lays in the hand of the programmer to find well thought phrases that reads 
+well in English. This is an art and is not always possible for a variety of 
+reasons. Can you find the right words and phrase ordering ? 
+Are some words being already used ?
+
+We have been lucky in the example above. We can type @code{Visible Filter} 
+to command the filter wheel and set the Visible filter. 
+Isn't that wonderful ?
+
+@subsubheading Rationale: Control structures
+
+Another reason to use definitions is to incorporate control structures like:
+@itemize
+@item @code{IF ... ELSE .. ENDIF}
+@item @code{DO ... LOOP}
+@item @code{CASE ... ENDCASE}
+@item @code{BEGIN ... AGAIN}
+@item @code{BEGIN ... UNTIL}
+@item @code{BEGIN ... WHILE ... REPEAT}
+@end itemize
+
+You @strong{must} be comfortable with stack handling. 
+@xref{Introduction,,Reference documents} for more details about control
+structures.
+
+@subsubheading Example 9
+
+Our final task to take a single CCD images will be to prepare the camera 
+for the photo. We will select a high resolution, 1x1 binning mode and will 
+set the CCD exposure to 20 seconds. This @code{CCDCam} driver behaviour 
+is to start an exposure whenever a new value is written on the 
+@code{ExpValues} property vector. We must also enable BLOBs to receive the 
+image, as they are not enabled by default.
+
+@anchor{Example 9} 
+@cartouche
+@example
+DEFINITION: Photo ( -- )
+  device CCDCam BLOBs enable
+  True     property item   CCDCam Binning 1:1 set
+           property vector CCDCam Binning send&ok
+  20. sec. property item   CCDCam ExpValues ExpTime set
+           property vector CCDCam ExpValues send&ok
+END-DEFINITION
+@end example
+@end cartouche
+
+Then, type
+@cartouche
+@example
+Photo
+@end example
+@end cartouche
+
+to take your first photo.
+
+@subsubheading Rationale: Logging
+
+While waiting for the exposure to finish, the following informative 
+messages are shown at the console:
+
+@example
+@group
+2008-04-01T09:40:49: CCDCam: ExpValues: Starting 2 sec exposure binned 1:1
+2008-04-01T09:40:51: CCDCam: ExpValues: Exposure complete, sending image
+2008-04-01T09:40:51: CCDCam: Received file: CCD1_2008-04-01T11:40:51.fts.z
+2008-04-01T09:40:51: CCDCam: uncompressed : CCD1_2008-04-01T11:40:51.fts
+2008-04-01T09:40:51: CCDCam: Stored in: 
+2008-04-01T09:40:51: CCDCam: ExpValues: Image sent
+@end group
+@end example
+
+The usual format of these messages is:
+@itemize
+@item an UTC timestamp,
+@item the device name,
+@item the property vector name and
+@item the free text message.
+@end itemize
+
+This can be used to redirect the script execution to a file. However,
+they can be turned off/on by issuing:
+
+@example
+  indi logging off
+  indi logging on
+@end example
+
+
+@subsubheading Advanced: INDI messages debugging
+
+You can debug incoming INDI messages arriving at a given server.
+Tracing can be enabled or disabled per message class. The following 
+incoming message types can be printed on standard output:
+@itemize
+@item defTextVector
+@item defNumberVector
+@item defSwitchVector
+@item defLightVector
+@item defBLOBVector
+@item setTextVector
+@item setNumberVector
+@item setSwitchVector
+@item setLightVector
+@item setBLOBVector
+@item indi-message
+@end itemize
+
+Make sure that INDI logging is on and invoke the following method
+on the indiserver object.
+
+@example
+@group
+indi logging on
+defTextVector indiserver +trace        \ enables  tracing
+defTextVector indiserver -trace        \ disables tracing
+@end group
+@end example
+
+
+You can also review outgoing messages issued by @sc{NTOScript}. 
+After having connected and discovered all your devices, disconnect from the
+remote server. At that point, outgoing messages are printed to standard output
+instead of being routed to the remote server. Example:
+
+@example
+@group
+IndiServer: indiserver localhost 7624
+indiserver connect
+indiserver properties get
+2 seconds waiting
+property vector CCDCam Exposure send      \ instead of send&wait and friends !
+@end group
+@end example
+
+
+@subsubsection Advanced Programming
+
+We have concluded the quick, easy route to take a first photo. 
+Of course, things can be more complex. Next examples introduce
+some advanced topics.
+
+@subsubheading Example 10
+
+Our final example will use the Weather station to monitor and react upon
+adverse conditions. Each time the wind or humidity exceeds one threshold
+the property @code{WX} in device @code{Weather} enters into @code{Alert}
+state. We will monitor this property and turn on and off the telescope
+power. Since we have no event driven programming in@sc{NTOScript}, 
+we have to design a separate thread or ``task'' that periodically polls 
+this property. 
+
+@anchor{Example 10} 
+@cartouche
+@example
+True  Constant switch-on
+False Constant switch-off
+
+DEFINITION: Telescope-on ( -- )
+   s" switching on telescope mount" background logtask
+   True property item   Mount Power On set
+        property vector Mount Power send&ok  
+END-DEFINITION
+
+DEFINITION: Telescope-off ( -- )
+   s" switching off telescope mount" background logtask
+  True property item   Mount Power Off set 
+       property vector Mount Power send&idle
+END-DEFINITION
+
+DEFINITION: Telescope ( flag -- )
+  IF
+    property item Mount Power On get 
+    0= IF Telescope-on endif
+  ELSE
+    property item Mount Power Off get
+    0= IF Telescope-off ENDIF
+  ENDIF
+END-DEFINITION
+
+DEFINITION: (WeatherAction) ( -- )
+  default-io decimal
+  background logging on
+  s" started" background logtask
+  BEGIN
+     2 seconds waiting
+     property vector Weather WX state
+     CASE
+        Alert OF switch-off telescope ENDOF
+        Ok    OF switch-on  telescope ENDOF
+     ENDCASE 
+  AGAIN
+END-DEFINITION
+
+DEFINITION: WeatherAction ( -- )
+  Assign (WeatherAction) catch
+  background .#excp
+  s" finished" background logtask
+END-DEFINITION
+@end example
+@end cartouche
+
+Then, type
+@cartouche
+@example
+switch-on telescope
+Task Weather-Task
+Assign WeatherAction To-Start Weather-Task
+@end example
+@end cartouche
+
+to power on the mount (if it wasn't already) and start the weather task. 
+
+@subsubheading Rationale: Factor, factor, factor
+
+The more sophisticated actions you want your devices to do, the more important 
+is to break the problem in small pieces. Do not let definitions to take 
+more than a few lines. Do not nest control structures in the same definition, 
+instead make a new definition out of them. With a little practice, you will 
+notice that each new definition can be reused in a different context.
+@strong{Learn to use the stack}. It is key to write small, reusable 
+definitions.
+
+Words @code{Telescope-on} and @code{Telescope-off} do precise things:
+to turn on or off the mount. Word @code{Telescope} that checks if
+the mount was already in the desired state, to avoid redundant commands.
+This later takes a flag, either @code{switch-on} or @code{switch-off} that
+tell us what is our intention.
+
+We also have words @code{(WeatherAction)} and @code{WeatherAction}. The former
+is where the real action code for the task is written. The latter wraps
+the action into exception handling code.
+ 
+Other utility words being used: @code{default-io}, @code{decimal},
+@code{background}, @code{logtask}.  @xref{Command Line Interface,,Glossary}
+or @cite{VFX Forth for Linux User Manual} for their descriptions.
+
+@subsubheading Rationale: Designing tasks
+
+Multitasking can be a bit intringing. Tasks can be as straightforward or
+as complex as you can imagine. Debugging tasks can be tricky. Your task
+should have at least a top level exception handler. Otherwise, your task may
+die and you may even not notice. Although you can write tasks that start 
+and finish cleanly, tasks are usually endless loops. In this case, it is of
+utmost importance to watch out stack imbalances.
+
+Some tools for debugging tasks are the @code{.s}, @code{f.s} words that print 
+the main stack and floating point stack contents.
+
+You also can use the @code{background logtask} phrase to display task 
+messages. ``background messages'' are a kind of messages available to
+the programmer as opossed to ``indi messages'' which display the
+INDI activity. Background messages must be turned on (globally, for all tasks).
+
+@example
+background logging on
+s" Message from task" background logtask
+@end example
+
+will display
+
+@example
+2008-04-01T09:40:51 Task <taskname> Message from task
+@end example
+
+Introducing tasks may introduce complexity: one task may depend on the
+activity of another task. This must be taken into account and there are
+several mechanisms to synchronize tasks. @ref{Example 11}
+shows one example. Another issue to take care is to define @code{USER}
+variables (when necessary) instead of ordinary variables.
+
+@xref{StephenPelc,,Stephen Pelc} and @ref{VFX Forth for Linux User Manual} 
+for a detailed discussion on multitasking. 
+
+
+@subsubheading Example 11
+
+If you are still with us, let us introduce to you a better refactored example:
+@itemize
+@item We will introduce an autofocuser task. The autofocuser task 
+simulates some actions of the HFD autofocusing algorithm by Steve
+Brady and Larry Weber. This task will start each 90 seconds, if an only if
+the CCD is not being used for ordinary imaging a the moment.
+@item We will refactor the image adquisition code to reuse it from two tasks.
+@end itemize
+
+As this example is rather long, it is splitted in several ``cartouches''.
+
+@anchor{Example 11} 
+@cartouche
+@example
+DEFINITION: discover   ( -- )
+  indiserver connect
+  indiserver properties get
+  2 seconds waiting
+END-DEFINITION
+
+\ -----------------
+\ *H Mount Handling
+\ -----------------
+
+DEFINITION: My-Location  ( -- )
+   40:25:00 LAT.   property item   Mount GEOGRAPHIC_COORD LAT  set
+  -03:42:00 LONG.  property item   Mount GEOGRAPHIC_COORD LONG set
+                   property vector Mount GEOGRAPHIC_COORD send&idle
+END-DEFINITION
+
+DEFINITION: Goto-M31  ( -- )
+   00:42:44 R.A.  property item   Mount EQUATORIAL_COORD RA  set
+  +41:16:08 DEC.  property item   Mount EQUATORIAL_COORD DEC set
+                  property vector Mount EQUATORIAL_COORD send&ok
+END-DEFINITION
+
+DEFINITION: Telescope-on ( -- )
+   s" switching on telescope mount" background logtask
+   True property item   Mount Power On set
+       property vector Mount Power send&ok  
+END-DEFINITION
+
+DEFINITION: Telescope-off ( -- )
+   s" switching off telescope mount" background logtask
+  True property item   Mount Power Off set 
+       property vector Mount Power send&idle
+END-DEFINITION
+
+True  CONSTANT switch-on     \ flags for the word below
+False CONSTANT switch-off
+
+DEFINITION: Telescope ( flag -- )
+  IF
+    property item Mount Power On get 
+    0= IF Telescope-on ENDIF
+  ELSE
+    property item Mount Power Off get
+    0= IF Telescope-off ENDIF
+  ENDIF
+END-DEFINITION
+@end example
+@end cartouche
+
+We have conveniently refactored the conection and discovery steps into word
+@code{discover} that do not take any parameters.
+
+@cartouche
+@example
+\ ------------------
+\ *H Camera Handling
+\ ------------------
+
+semaphore ccdsem
+ccdsem    InitSem
+
+1 CONSTANT 1x1
+2 CONSTANT 2x2
+3 CONSTANT 3x3
+4 CONSTANT 4x4
+
+DEFINITION: Photo ( binning -- ; F: exptime -- )
+  CASE
+    1x1 OF True property item CCDCam Binning 1:1 set ENDOF  
+    2x2 OF True property item CCDCam Binning 2:1 set ENDOF
+    3x3 OF True property item CCDCam Binning 3:1 set ENDOF
+    4x4 OF True property item CCDCam Binning 4:1 set ENDOF
+  END-CASE 
+  property vector CCDCam Binning send&ok
+  property item   CCDCam ExpValues ExpTime set
+  property vector CCDCam ExpValues send&ok
+END-DEFINITION
+
+DEFINITION: Photos ( binning nphotos --  F: exptime -- )
+  ccdsem request
+  device CCDCam BLOBs enable
+  auto-blobs-dir property vector CCDCam Pixels directory set
+  0 DO 
+    dup fdup Photo 
+  LOOP 
+  drop fdrop
+  ccdsem signal
+END-DEFINITION
+@end example
+@end cartouche
+
+We have generalized @code{Photo} to take the binning mode and exposure time
+as parameters (on the data and floating point stack respectively).
+
+Binning mode words are defined like constants. Unlike other languages,
+FORTH allows names with any character not being a <SPACE>, <TAB> 
+or <CR> 
+
+A difference with the previous version of @code{Photo} is that 
+``enable BLOBs'' message has been taken out. There is no need to send it 
+every time.
+
+We would like to have a word that takes a series of photos for two purposes:
+@itemize
+@item for your imaging session and
+@item for the autofocuser task
+@end itemize
+
+Of course, this word is named @code{Photos} and simply loops over @code{Photo},
+taking one parameter more, the number of photos to take. 
+It is customary to place the argument being first used on the top of the stack.
+
+Incoming BLOBs such as CCD images are left in the current directory where
+@sc{NTOScript} is launched, unless an specific directory is set. 
+
+The phrase
+@example
+property vector CCDCam Pixels directory set
+@end example
+
+creates and sets a directory given by a string placed in the data stack.  
+
+For convenience, we have included word @code{auto-blobs-dir} which generates
+a directory string with the format:
+@display
+$HOME/ccd/<julian day>
+@end display
+
+where $HOME is the user's HOME enviroment variable. This naming scheme 
+based on julian day has the property of being invariant throughout a 
+whole night of imaging, removing the ambiguity of where to place images 
+before and after midnight.
+
+You may have noticed the declaration of a @code{SEMAPHORE} at the beginning.
+As you probably know, this is a familiar inter-task synchronization mechanism.
+It ensures that the autofocusing task do not interfere when doing an
+imaging session of, let's say @code{2x2 60. sec. 5 Photos}. 
+
+@cartouche
+@example
+\ -------------------
+\ *H Focuser Handling
+\ -------------------
+  
+DEFINITION: +Focuser  ( -- )
+      property item   OTA Focuser Focus get
+      property item   OTA Focuser Focus step	
+   f+ property item   OTA Focuser Focus set
+      property vector OTA Focuser send&ok
+END-DEFINITION
+
+DEFINITION: -Focuser  ( -- )
+      property item OTA Focuser Focus get
+      property item OTA Focuser Focus step
+   f- property item OTA Focuser Focus set
+      property vector OTA Focuser send&ok
+END-DEFINITION
+
+0 CONSTANT Blue
+1 CONSTANT Visible
+2 CONSTANT Red
+3 CONSTANT IR
+4 CONSTANT HII
+5 CONSTANT Clear
+
+DEFINITION: Filter  ( n1 -- )
+   CASE
+     Blue    OF True property item OTA Filter B set ENDOF
+     Visible OF True property item OTA Filter V set ENDOF
+     Red     OF True property item OTA Filter R set ENDOF
+     IR      OF True property item OTA Filter I set ENDOF
+     HII     OF True property item OTA Filter H set ENDOF
+	        True property item OTA Filter C set
+   ENDCASE
+   property vector OTA Filter send&ok
+END-DEFINITION
+@end example
+@end cartouche
+
+Basic Focuser and Filter wheel handling code is the same as before 
+(@ref{Example 8}. However, next example will introduce our simulated
+autofocusing process.
+
+
+@cartouche
+@example
+\ -----------------
+\ *H Autofocus Task
+\ -----------------
+
+DEFINITION: VShape ( -- )
+  16 0 DO
+     2700 ms
+     +Focuser
+      s" taking a hi-res focus image" background logtask
+     5.0 sec. 1x1 Photo
+  LOOP
+END-DEFINITION
+  
+DEFINITION: BestPosition ( -- )
+    8 0 DO 2300 ms -Focuser LOOP
+END-DEFINITION
+
+DEFINITION: AutoFocus ( -- )
+    ccdsem request
+    VShape BestPosition
+    ccdsem signal
+END-DEFINITION    
+        
+DEFINITION: (Autofocuser) ( -- )
+  default-io decimal
+  background logging on
+  s" started" background logtask
+  BEGIN
+     90 seconds waiting
+     AutoFocus
+  AGAIN     
+END-DEFINITION
+
+DEFINITION: Autofocuser ( -- )
+  Assign (Autofocuser) CATCH
+  ?dup IF 
+     background .#excp ccdsem initSem 
+  ENDIF
+  s" finished" background logtask
+END-DEFINITION
+@end example
+@end cartouche
+
+This series of definitions simulate a brute force Half Flux Method
+autofocusing algorithm:
+
+@itemize
+@item The calibration photo series to obtain an V ``HFD versus position''
+shape is defined in @code{VShape}
+@item The final move to the best position just found is defined in
+@item An autofocusing run is defined in @code{AutoFocus}.
+@item The real autofocuser task that initializes task variables and runs 
+every 90 seconds is defined in @code{(AutoFocuser)}
+@item The wrapper task action that handles exception codes thrown is
+@code{Autofocuser}
+@code{BestPosition}.
+@end itemize
+
+As mentioned before, each autofocus run must be done if and only if
+no imaging session is in progress, so it uses the @code{ccdsem} semaphore.
+
+@cartouche
+@example
+\ ---------------
+\ *H Weather Task
+\ ---------------
+  
+DEFINITION: (WeatherAction) ( -- )
+  default-io decimal
+  background logging on
+  s" started" background logtask
+  BEGIN
+     2 seconds waiting
+     property vector Weather WX state
+     CASE
+        Alert OF switch-off telescope ENDOF
+        Ok    OF switch-on  telescope ENDOF
+     ENDCASE 
+  AGAIN
+END-DEFINITION
+
+DEFINITION: WeatherAction ( -- )
+  Assign (WeatherAction) CATCH
+  background .#excp
+  s" finished" background logtask
+END-DEFINITION
+@end example
+@end cartouche
+
+The weather task is the same as before.
+@sp 2
+
+@subsubheading Rationale: Including files
+
+Your final imaging script can be quite concise and it is composed of words,
+tailored to your INDI drivers, performing a good amount of work 
+and that you can reuse over and over again. You can place them
+in a separate file, lets say @file{xephem.fs} and simply include it.
+
+@example
+  include xephem.fs
+@end example
+
+
+@cartouche
+@example
+\ --------------
+\ *H Main Script
+\ --------------
+
+foreground logging on
+IndiServer: indiserver localhost 7624
+include xephem.fs     \ file where the above definitions live
+discover
+
+Task Weather-Task
+Assign WeatherAction To-Start Weather-Task
+
+Task AutoFocus-Task
+Assign Autofocuser To-Start AutoFocus-Task
+
+switch-on Telescope
+My-Location
+Goto-M31
+
+Red Filter
+30.0 sec. 2x2 3 Photos
+
+Visible Filter
+30.0 sec. 2x2 3 Photos
+
+Blue Filter
+60.0 sec. 2x2 3 Photos
+
+Clear Filter
+60.0 sec. 1x1 3 Photos
+@end example
+@end cartouche
+
+@c ----------------------------------------------------------------------------
+@c ----------------------------------------------------------------------------
+
+@subsection Sky Mapping package
+
+The sky mapping package provides a tool to generate (R.A., Dec.) 
+coordinate pairs that sample ``rectangular'' areas in the sky for various 
+tasks like mosaics or asteroid hunting. It includes the necessary 
+declination correction to account for the noticeable decreasing RA arc 
+length produced at medium to high declinations.
+(@pxref{fig-no-correction} and @ref{fig-correction}).
+
+@float Figure,fig-no-correction
+@image{no-dec-correction,,18cm,,.png}
+@caption{Sky frames around NGC 188 produced without declination correction.}
+@end float
+
+@float Figure,fig-correction
+@image{dec-correction,,18cm,,.png}
+@caption{Sky frames around NGC 188 produced with declination correction.
+In fact, there are still gaps by not applying the correction respect to the 
+frame edge.}
+@end float
+
+Coordinates generation (sampling) can be according to the following patterns:
+@itemize
+@item @code{UNIFORM} pattern
+@item @code{ZIGZAG} pattern
+@end itemize 
+
+@float Figure,fig-patterns
+@cartouche
+@example
+                       >---------*      +---------*
+                                        |          
+                       >----x---->      +----x----+
+                                                  |
+                       o--------->      o---------+
+@end example
+@end cartouche
+@caption{Sky Mapper Uniform and ZigZag patterns.}
+@end float
+and each pattern in  different modes, which account for the 
+differenct combinations: @code{+RA +DEC}, @code{-RA -DEC},
+@code{+RA -DEC} and @code{-RA +DEC}. The fast moving axis is always RA.
+
+For a given set of initial and final (R.A.,Dec.) coordinates, there are two
+possibilities for mosaicing the zone. To resolve this ambiguity we have
+introduced a limitation. The mosaicing zone should not cover more than
+12:00:00 hours in R.A. The mapping algorithm always choose the smaller
+zone.
+
+@subsubsection Planning the mosaic
+
+We will continue working with the example given in the @ref{Example 11}. 
+Now the task is to do an LRGB mosaic of M31 galaxy through @code{Clear},
+@code{Red}, @code{Visible} and  @code{Blue} filters. Unlike the previous 
+example,
+we will not use any independent task for focusing. Instead we will reuse the
+@code{Autofocuser} action to explicitely focus after each filter movement.
+
+The very first thing to do is to study wether this is feasible given
+the CCD chip area and telescope focal length. @sc{NTOScript} includes a couple
+of utility words, @code{CCDChip:} and  @code{OTA:} to define data structures 
+that help determining the angular size seen from the chip.
+
+@cartouche
+@example
+4904 x 3280  7.4 um. x 7.4 um. CCDChip: SXVF-H36
+80.0 inch. x 8.0 inch.         OTA:     LX200-8"
+@end example
+@end cartouche
+
+As seen from the example, the @code{CCDChip:} word defines a data structure 
+named @code{SXVF-H36} and needs the horizontal and 
+vertical resolutions @footnote{word @code{x} is just syntactic sugar} and the 
+dimensions of each physical pixel. The @code{OTA:} word defines a data 
+structure named @code{LX200-8"} and needs the focal length 
+and diameter (in this order). The internal data structures work in 
+international standard units (meters), so is necessary to perform conversions. 
+This is easy using unit words like @code{um.} or @code{inch.}
+
+Examining the zone with our favourite planetarium, we choose as a suitable big
+frame the sky area covered between @code{00:50 R.A. 43:00 DEC.} and
+@code{00:35 R.A. 39:30 DEC.} . We will sweep the sky by decreasing R.A. 
+cordinates and increasing Dec. coordinates. Now, we are ready to define our 
+skymapper object. It is also convenient to specify a slight amount of overlap
+in both axes to align each frames when composing the mosaic.
+
+@cartouche
+@example
+-RA +DEC Uniform SkyMapper: skymapper1
+00:50 R.A.   43:00 DEC.     skymapper1 set-initial
+00:35 R.A.   39:30 DEC.     skymapper1 set-final
+LX200-8"     SXVF-H36  FOV  skymapper1 set-frame
+   10 %RA    10 %DEC        skymapper1 set-overlap
+@end example
+@end cartouche
+ 
+When setting the individual frame size with @code{set-frame}, the R.A. and Dec.
+angular sizes must be expressed in degrees. This is automatically supplied
+by the word @code{FOV} which takes a CCD chip structure and an OTA structure
+in this order. Overlap is specified as an integer from 0 to 99.
+
+The other choice to initialize a sky mapper is specifying a field centre point
+and the number of frames to take in each axis. 
+@xref{Sky Mapping,,Creating sky mapper objects}
+
+It is possible to graphically depict what is the mapped area and find out by
+yourself if this is feasible. Defining word @code{XEphem-Tool:} creates
+tool instances. A given tool instance generates two files:
+@itemize
+@item A eyepieces location file named  @file{mapping.epl} and
+@item An annotations file named @file{mapping.ano}, with the sequence numbers 
+@end itemize
+
+These two files are placed under the user's @file{$HOME/.xephem} directory.
+
+To do this, just type:
+
+@cartouche
+@example
+XEphem-Tool: xephem
+skymapper1 xephem set-mapper
+xephem generate
+@end example
+@end cartouche
+
+Pay attention to the foreground logging, as it tells the number of frames 
+generated to map the desired sky area.
+
+@example
+2008-04-20T23:06:46: 24 samples for eyepieces & annotations.
+@end example
+
+Now, launch XEphem and select your favourite SkyView from the History menu.
+Then display the mapped area. You can do this either by manually scrolling or 
+using XEphem data index facility or using again the @sc{NTOScript} tool.
+@xref{Sky Mapping,,XEphem tool} for more details.
+
+For the example above, we have the following mapped area:
+
+@float Figure,fig-moisaic
+@center @image{m31-mosaic,,18cm,M31 MOSAIC,.png}
+@caption{Planned mosaic of M31 field using an LX200 8" OTA and an Starlight SXVF-H36 CCD}      
+@end float
+
+@subsubsection Sweeping the sky
+
+Once we have created our sky mapper object and verified the  feasibility of
+our mosaic, we can proceed to program the script for our mosaic, but first a 
+couple of handy definitions.
+
+@cartouche
+@example
+DEFINITION: GoTo-RADEC	 ( F: dec ra -- )
+  property item   Mount EQUATORIAL_COORD RA  set
+  property item   Mount EQUATORIAL_COORD DEC set
+  property vector Mount EQUATORIAL_COORD send&ok
+END-DEFINITION
+@end example
+@end cartouche
+
+This definition will take any floating point R.A. and Dec. coordinates and 
+send them to the mount, causing it to slew. Note that parameters are passed
+in the reversed order with respect to the customary (R.A.,Dec.) sequence.
+
+@cartouche
+@example
+DEFINITION: Home-Location  ( geopoint -- )
+   GeoPoint@@
+   property item   Mount GEOGRAPHIC_COORD LAT  set
+   property item   Mount GEOGRAPHIC_COORD LONG set
+   property vector Mount GEOGRAPHIC_COORD send&idle
+END-DEFINITION
+@end example
+@end cartouche
+
+This definition sends the mount the coordinates of a geographical point
+and avoids hardcoding coordinates inside the definition. Geographical points
+are defined with @code{GeoPoint:} @pxref{Sky Mapping,,/GEOPOINT structure}.
+
+Next definition will manage a series of LRGB exposures.  We will assume that 
+we know from experience what is the exposure balance between filters to do a 
+proper colour balancing. The only interesting parameter to play with is the 
+number of exposures in each filter. To make it easy, we write a definition 
+that uses the same number for all exposures. We also perform autofocusing 
+explicitelly assuming that filters have uneven thickness.
+
+@cartouche
+@example
+DEFINITION: LRGB-Series  ( nphotos -- )
+     >R
+     Red Filter
+     Autofocuser
+     30.0 sec. 2x2 R@@ Photos
+     Green Filter
+     Autofocuser
+     40.0 sec. 2x2 R@@ Photos
+     Blue Filter
+     Autofocuser
+     60.0 sec. 2x2 R@@ Photos
+     Clear Filter
+     Autofocuser
+     30.0 sec. 1x1 R> Photos
+END-DEFINITION
+@end example
+@end cartouche
+
+We have used the @emph{return stack} to keep the number of photos, although we 
+could have used the @emph{locals} facility for easier handling and readability.
+
+Now, we are ready to write our mosaic loop that uses the @code{skymapper1}:
+@cartouche
+@example
+DEFINITION: LRGB-Mosaic ( -- )
+  skymapper1 reset
+  BEGIN
+     skymapper1 next-point
+  WHILE
+     EqPoint@@ GoTo-RADEC
+     10 seconds waiting
+     5 LRGB-Series
+  REPEAT
+END-DEFINITION
+@end example
+@end cartouche
+
+Note that the very first thing one should do to a sky mapper object after 
+setting its points is to @code{reset} it.
+
+Method @code{next-point} in @code{skymapper1} returns an @code{/EqPoint}
+structure and @code{True} or simply @code{False} when this object finishes 
+generating coordinates. Floating point coordinates in this structure are 
+fetched in reverse order using the word @code{EqPoint@@}. 
+These values are fed into @code{Goto-RADEC} to move the @code{Mount} device 
+and finally we take 5 exposures per filter. We also wait 10 seconds for the 
+telescope to stabilize tracking.
+
+@sp 2
+
+And finally, our M31 mosaic main script is simply:
+@cartouche
+@example
+foreground logging on
+
+IndiServer: indiserver localhost 7624
+include xephem.fs
+
+-03:42 LONG.  40:25 LAT. GeoPoint: Madrid
+
+4904 x 3280  7.4 um. x 7.4 um. CCDChip: SXVF-H36
+
+80.0 inch. x 8.0 inch. OTA: LX200-8"  
+
+-RA +DEC Uniform SkyMapper: skymapper1
+
+00:50 R.A.   43:00 DEC.     skymapper1 set-initial
+00:35 R.A.   39:30 DEC.     skymapper1 set-final
+
+LX200-8"     SXVF-H36  FOV  skymapper1 set-frame
+   10 %RA      10 %DEC      skymapper1 set-overlap
+
+discover
+switch-on telescope
+Madrid Home-Location
+LRGB-Mosaic
+@end example
+@end cartouche

@@ -1,0 +1,46 @@
+((
+$Date: 2008-02-11 00:27:54 +0100 (lun, 11 feb 2008) $
+$Revision: 450 $
+$Author: astrorafael $
+$HeadURL$
+
+2008 By Rafael Gonzalez Fuentetaja
+This file is placed in the public domain. NO WARRANTY.
+))
+
+\ ####################
+\ *! interfaces
+\ *R @node{Interfaces}
+\ *T Interfaces
+\ ####################
+
+\ ***************
+\ *S Introduction
+\ ***************
+
+\ *P The notion of *\b{interface} is well known in programming languages like
+\ ** Java. Interfaces have a name and a set of operations or selectors
+\ ** with a well defined signature. Operation name clashes are solved by
+\ ** the fully qualified operation name, including the interface name.
+
+\ *P However, in Forth the situation is somewhat different. There is not
+\ ** an easy way of reusing names other than private wordlists.
+\ ** If two different classes want to use the same name for its public
+\ ** interface, either we choose a synonym or we define this name in a separate
+\ ** *\fo{INTERFACE} construct to be overriden conveniently.
+
+\ *P The usage of interfaces in *\f{NTOScript} is a bit peculiar in the sense
+\ ** that they are simply collections of related words and underlying 
+\ ** concepts like *\fo{load} and *\fo{save}.
+\ ** However, it is impossible to specify the exact stack signature, because
+\ ** this depends on the class implementing his interface.
+
+
+\ ***********
+\ *S Glossary
+\ ***********
+
+
+\ ======
+\ *> ###
+\ ======

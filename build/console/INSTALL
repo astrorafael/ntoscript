@@ -1,0 +1,37 @@
+RAW INSTALLAION INSTRUCTIONS
+============================
+
+1) Become root
+
+2) cd /
+
+3) tar zxvf ntoscript_<version>.tar.gz
+
+INSTALLED FILES AND DIRECTORIES
+===============================
+
+INSTALL (this file)
+usr/bin/ntoscript
+usr/share/doc/ntoscript/
+usr/share/doc/ntoscript/userman.pdf
+usr/share/ntoscript/scripts/
+usr/share/ntoscript/scripts/tutorial*.fs
+usr/share/ntoscript/scripts/xephem.fs
+
+
+DEPENDENCIES
+============
+
+This package depends on:
+  libc.so (>= libc.so.6)
+  libz.so (>= libz.so.1.2.3)
+  libmpeparser.so.0 
+Except for libmpeparser.so.0, they are probally installed on your system.
+You can get  libmpeparser.so.0 at
+
+ftp://public:@soton.mpeforth.com/libmpeparser_3.0b-3_i386.deb
+
+LAST MINUTE
+===========
+
+Type 'ntoscript' to check the instalation.

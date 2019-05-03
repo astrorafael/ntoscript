@@ -1,0 +1,160 @@
+((
+$Date: 2008-05-14 22:03:33 +0200 (mié 14 de may de 2008) $
+$Revision: 522 $
+$Author: astrorafael $
+$HeadURL: file:///home/desa/repos/ntoscript/trunk/docgen/refman/docgen.dgs $
+
+2008 By Rafael Gonzalez Fuentetaja
+This file is placed in the public domain. NO WARRANTY.
+))
+
+
+include /usr/share/doc/VfxForth/Lib/DocGen.fth
+
+\ This Forth script is invoked from the command line like
+\      "vfxlin create internal include docgen.dgs" 
+\ to include detailed documentation
+\
+\ or
+\ 	"vfxlin include docgen.dgs" 
+\ to generate normal documentation
+
++docgen docgen_html
+
+[defined] refman [if]
+	+internalDocs 		\ both for TeX and HTML
+[else]
+	-internalDocs
+[endif]
+
++TOC +Index		\ for HTML
+
+cr ." Starting HTML manual generation"
+
+\ *! index
+\ *W <HEAD><TITLE>NTOScript Reference Manual</TITLE></HEAD>
+\ *W <FRAMESET COLS="200, 100%">
+\ *W   <BODY>
+\ *W   <FRAME SRC="menu.html"    name="menu">
+\ *W   <FRAME SRC="titlepg.html" name="main">
+\ *W   </BODY>
+\ *W </FRAMESET>
+\ *W </HTML>
+\ *> ###
+
+\ *! menu
+\ *W <A target="main" HREF="titlepg.html">Home</A><BR>
+\ *W <A target="main" HREF="contents.html">TOC</A><BR>
+\ *W <A target="main" HREF="intro.html">Introduction</A><BR>
+\ *W <A target="main" HREF="architecture.html">Introduction</A><BR>
+\ *W <A target="main" HREF="properties.html">Properties database</A><BR>
+\ *W <A target="main" HREF="task.html">Background Task</A><BR>
+\ *W <A target="main" HREF="parser.html">INDI message parser</A><BR>
+\ *W <A target="main" HREF="dynbuffer.html">Dynamic Buffer</A><BR>
+\ *W <A target="main" HREF="xml.html">XML Utility words</A><BR>
+\ *W <A target="main" HREF="interfaces.html">Interfaces</A><BR>
+\ *W <A target="main" HREF="interfaces.html">Sky Mapping</A><BR>
+\ *W <A target="main" HREF="sexag.html">Miscellany</A><BR>
+\ *W <A target="main" HREF="edb.html">EDB Parsing utilities</A><BR>
+\ *W <A target="main" HREF="base64.html">Base64 Encoding/Decoding</A><BR>
+\ *W <A target="main" HREF="zpipe.html">Compress/Uncompress</A><BR>
+\ *W <A target="main" HREF="logger.html">Simple logger</A><BR>
+\ *W <A target="main" HREF="sockets.html">Linux TCP and UDP Socket Bindings</A><BR>
+\ *W <A target="main" HREF="genio.html">GENIO Socket Device</A><BR>
+\ *W <A target="main" HREF="multicop.html">Cooperative Multitasker</A><BR>
+\ *W <A target="main" HREF="extras.html">Extras</A><BR>
+\ *W <A target="main" HREF="objects.html">Object Oriented Programming</A><BR>
+\ *W <A target="main" HREF="struct.html">Support Structs Package</A><BR>
+
+
+\ *> ###
+
+\ *! titlepg
+\ *W <CENTER>
+\ *W <H1>NTOScript Reference Manual</H1>
+\ *W <H2>A Forth scripting environment to control INDI devices and more.</H2>
+\ *W <P>January 2008</P>
+\ *W <P><I>Documentation derived from the source code by DOCGEN
+\ *W       with VFX Forth for Linux
+\ *W </I></P>
+\ *W <BR><BR><BR>
+\ *W <ADDRESS>by Rafael Gonzalez Fuentetaja</ADDRESS>
+\ *W <B><This software is placed in the Public Domain. NO WARRANTY.</B>
+\ *W </CENTER>
+\ *> ###
+
+include filelist.fs
+
++docgen docgen_texinfo
+
+cr ." Starting Texinfo manual generation"
+
+\ ===============
+\ Tex manual file
+\ ===============
+\ *! refman
+\ *R \input texinfo
+\ *R @setfilename           ntoscript.info
+\ *R @setcontentsaftertitlepage
+\ *R @afourpaper
+\ *R @settitle               NTOScript Reference Manual
+\ *R @setchapternewpage      odd
+\ *R @paragraphindent        0
+\ *R @exampleindent          0
+\ *R @finalout
+\ *R @include titlepg.tex
+\ *R @include intro.tex
+\ *R @page
+\ *R @include architecture.tex
+\ *R @page
+\ *R @include properties.tex
+\ *R @page
+\ *R @include task.tex
+\ *R @page
+\ *R @include parser.tex
+\ *R @page
+\ *R @include dynbuffer.tex
+\ *R @page
+\ *R @include xml.tex
+\ *R @page
+\ *R @include interfaces.tex
+\ *R @page
+\ *R @include skymapping.tex
+\ *R @page
+\ *R @include sexag.tex
+\ *R @page
+\ *R @include edb.tex
+\ *R @page
+\ *R @include base64.tex
+\ *R @page
+\ *R @include zpipe.tex
+\ *R @page
+\ *R @include logger.tex
+\ *R @page
+\ *R @include cli.tex
+\ *R @page
+\ *R @include sockets.tex
+\ *R @page
+\ *R @include genio.tex
+\ *R @page
+\ *R @include multicop.tex
+\ *R @page
+\ *R @include extras.tex
+\ *R @page
+\ *R @include objects.tex
+\ *R @page
+\ *R @include struct.tex
+\ *R @page
+\ *R @bye
+\ *> ###
+
+include filelist.fs
+
+cr ." Ended TexInfo manual generation" cr
+
+-docgen
+
+bye
+
+
+

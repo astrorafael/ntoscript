@@ -1,0 +1,75 @@
+((
+$Date: 2008-05-14 22:03:33 +0200 (mié 14 de may de 2008) $
+$Revision: 522 $
+$Author: astrorafael $
+$HeadURL: file:///home/desa/repos/ntoscript/trunk/docgen/userman/docgen.dgs $
+
+2008 By Rafael Gonzalez Fuentetaja
+This file is placed in the public domain. NO WARRANTY.
+))
+
+
+include /usr/share/doc/VfxForth/Lib/DocGen.fth
+
+\ This Forth script is invoked from the command line like
+\      "vfxlin create internal include docgen.dgs" 
+\ to include detailed documentation
+\
+\ or
+\ 	"vfxlin include docgen.dgs" 
+\ to generate normal documentation
+
++docgen docgen_texinfo
+
+[defined] refman [if]
+	+internalDocs 		\ both for TeX and HTML
+[else]
+	-internalDocs
+[endif]
+
+cr ." Starting Texinfo manual generation"
+
+\ ===============
+\ Tex manual file
+\ ===============
+\ *! userman
+\ *R \input texinfo
+\ *R @setfilename           userman.info
+\ *R @setcontentsaftertitlepage
+\ *R @afourpaper
+\ *R @settitle               NTOScript User Manual
+\ *R @setchapternewpage      odd
+\ *R @paragraphindent        0
+\ *R @exampleindent          0
+\ *R @finalout
+\ *R @include titlepg.tex
+\ *R @include intro.tex
+\ *R @include tutorial.texi
+\ *R @page
+\ *R @include properties.tex
+\ *R @page
+\ *R @include interfaces.tex
+\ *R @page
+\ *R @include cli.tex
+\ *R @page
+\ *R @include skymapping.tex
+\ *R @page
+\ *R @include sexag.tex
+\ *R @page
+\ *R @include objects.tex
+\ *R @page
+\ *R @include struct.tex
+\ *R @page
+\ *R @bye
+\ *> ###
+
+include filelist.fs
+
+cr ." Ended TexInfo manual generation" cr
+
+-docgen
+
+bye
+
+
+

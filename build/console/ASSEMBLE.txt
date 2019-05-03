@@ -1,0 +1,9 @@
+This directory build the binary packages for distribution.
+The whole ntoscript project should be exported with "svn export".
+1) Make sure you have retrieved the proper branch
+2) Make sure that you have built the user manual.
+3) Make sure that you have built 'ntoscript'.
+4) Execute the assemble.sh
+5) The file build.no has been updated, need to copy it into a normal checkout
+working copy.
+
